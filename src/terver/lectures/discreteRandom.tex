@@ -1,0 +1,530 @@
+\section{Случайные величины на дискретном вероятностном пространстве.}
+
+\subsection{Определение случайной величины и её распределение.}
+\begin{definition}
+    \it{Случайной величиной} на дискретном вероятностном пространстве $\Omega$ называют произвольную функцию
+    $X \colon \Omega \to \RR$. Если $X$ --- случайная величина на дискретном вероятностом пространстве, то
+    множество её значений не более чем счётно (очевидно, т.к. мы для каждого исхода $\omega \in \Omega$
+    зафиксируем его образ, а таких исходов не более чем счётно).
+\end{definition}
+Пусть $X$ --- случайная величина и $x_1, \ldots, x_n, \ldots$ --- все её значения.
+\begin{definition}
+    \it{Распределением} случайной величины $X$ называется новая вероятностная мера $\mu_{X}$ на пространстве
+    $\{x_1, \ldots, x_n, \ldots\}$, для которой $\mu_X(\{x_j\}) = P(\{w\; \colon\; X(w) = x_j\})$. Т.е. вероятность
+    того, что случайная величина примет значение $x_j$ мы считаем как вероятность такого события, элементами
+    которого являются элементарные исходы из $\Omega$, переходящие в $x_j$.
+\end{definition}
+%    \begin{proposal}
+%        $\mu_X$ действительно является вероятностной мерой на вероятностном пространстве $\{x_1, \ldots, x_n, \ldots\}$.
+%    \end{proposal}
+%    \begin{proof}
+%        Посчитаем вероятность
+%        $\mu_X(\{x_1, \ldots, x_n, \ldots\})$. По определению это равно $P(A)$, где $A$ --- событие, каждым элементом
+%        которого является исход из $\Omega$, переходящий хотябы в одно из значений $\{x_1, \ldots, x_n, \ldots\}$. Но
+%        это множество содержит вообще все значения случайной величины $X$, а значит событие $A$ содержит вообще все исходы
+%        (т.к. каждый исход хоть куда-то переходит), а значит $A = \Omega$. Отсюда:
+%        \[
+%            \mu_X(\{x_1, \ldots, x_n, \ldots\}) = P(\Omega) = 1
+%        \]
+%    \end{proof}
+Положим событие $A_j = \{w \colon X(w) = x_j\}$. Очевидно, что $\forall\; i \neq j \implies A_i \cap A_j = \nothing$,
+и $\bigcup_{j} A_j = \Omega$, а значит $\mu$ действительно является вероятностной мерой.
+
+Пусть $p_j = P(w \colon X(w) = x_j)$. Тогда распределение $X$ можно задать таблицей:
+\[
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        X     & x_1 & x_2 & \cdots & x_n & \cdots \\
+        \hline
+        \mu_X & p_1 & p_2 & \cdots & p_n & \cdots \\
+        \hline
+    \end{tabular}
+\]
+
+\subsection{Примеры случайных дискретных величин.}
+\textbf{Бернуллиевская случайная величина:}
+
+Таблица распределение бернулиевской случайной величины имеет вид
+\[
+    \begin{tabular}{|l|c|c|}
+        \hline
+        X    & 0 & 1 \\
+        \hline
+        P(X) & q & p \\
+        \hline
+    \end{tabular}
+\]
+Величина моделирует событие с двумя исходами, вероятность одного из которых равна $p$. Такая случайная величина
+обычно появляется, как "индикатор" \ какого-то события $A$:
+\[
+    I_A(w) =
+    \begin{cases}
+        1 & w \in A \\
+        0 & w \notin A
+    \end{cases}
+\]
+Тогда $P(A) = p$ и $q = 1 - P(A)$.
+
+\textbf{Схема Бернулли.}
+
+$\Omega$ --- все возможные наборы длины $N$ из нулей и единиц. Вероятностная мера $P$ задаётся следующим образом:
+если исход содержит $k$ единиц, то вероятность этого исхода равна $p^{k}q^{N - k}$, где $p + q = 1$.\\
+Случайная величина $X(w)$ --- число единиц в исходе $w$. Таблица распределения:
+\[
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+        \hline
+        X    & 0   & 1         & \cdots & k                           & \cdots & N   \\
+        \hline
+        P(X) & q^N & Npq^{N-1} & \cdots & $\binom{N}{k}$ p^{k}q^{N-k} & \cdots & p^N \\
+        \hline
+    \end{tabular}
+\]
+
+\textbf{Геометрическое распределение.}
+
+Случайная величина $X$ моделирует событие с двумя исходами, которое повторяется до первого успеха.
+Таблица распределения:
+\[
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        X    & 1 & 2  & \cdots & k          & \cdots \\
+        \hline
+        P(X) & p & qp & \cdots & q^{k - 1}p & \cdots \\
+        \hline
+    \end{tabular}
+\]
+
+\subsection{Совместное распределение случайных величин.}
+Пусть $X, Y$ --- две случайные величины с множествами значений $M_X = \{x_1, x_2, \ldots\}$ и $M_Y = \{y_1, y_2, \ldots\}$
+соответственно.
+\begin{definition}
+    \it{Совместным распределением} двух случайных величин назвается вероятностная мера $\mu_{X, Y}(\{x_j, y_k\})$
+    на вероятностном пространстве $M_X \times M_Y$, для которой
+    \[
+        \mu_{X, Y}(\{x_j, y_k\}) = P(\{w \colon X(w) = x_j, Y(w) = y_k\}) = P(\{w \colon X(w) = x_j\} \cap \{w \colon Y(w) = y_k\})
+    \]
+    Для большего числа случайных величин всё аналогично.
+\end{definition}
+
+\subsection{Независимые случайные величины. Эквивалентное определение независимости случайных величин.}
+\begin{definition}
+    Случайные величины $X, Y$ с множествами значений $M_X, M_Y$ называются \it{независимыми}, если
+    $\forall\;j, k$ выполнено
+    \[
+        \mu_{(X, Y)}(\{x_j, y_k\}) = \mu_X(\{x_j\}) \cdot \mu_Y(\{y_k\})
+    \]
+    Для большего числа случайных величин всё аналогично.
+\end{definition}
+\begin{proposal}
+    Пусть $X, Y$ --- две случайные величины, и $A, B \subset \RR$ --- произвольные множества. Тогда
+    \[
+        X, Y \text{ --- независимы} \iff
+        P(\{w \colon X(w) \in A, Y(w) \in B\}) = P(\{w \colon X(w) \in A\}) \cdot
+        P(\{w \colon Y(w) \in B\})
+    \]
+    Т.е. независимость случайных величин равносильна незвисимости специальных событий.
+\end{proposal}
+\begin{proof}
+    Очевидно, что достаточно доказать для $A, B \subseteq \rng X, Y$ соответственно.
+    Заметим, что событие $\mathcal{A} = \{w \colon X(w) \in A\}$ можно разбить на объединение следующих событий:
+    $\mathcal{A} = \bigcup\limits_{j} \{w \colon X(w) = x_j\}$. Причём все эти подсобытия друг с другом не пересекаются,
+    в силу того, что $x_j$ не повторяются. Аналогично можно поступить для события $\mathcal{B} = \{w \colon Y(w) \in B\}$.
+
+    Тогда, по свойству счётной аддитивности: $P(\mathcal{A}) = \sum\limits_{j} \{w \colon X(w) = x_j\}$.\\
+    Аналогично $P(\mathcal{B}) = \sum\limits_{k} \{w \colon Y(w) = y_k\}$.\\
+    Аналогично для
+    $P(\mathcal{A} \cap \mathcal{B})$:
+    \[
+        P(\mathcal{A} \cap \mathcal{B}) = P(\{w \colon X(w) \in A, Y(w) \in B\}) =
+        \sum\limits_{i, j \colon x_i \in A, y_j \in B} P(\{w \colon X(w) = x_i, Y(w) = y_j\})
+    \]
+    Теперь имеем:
+    \begin{align*}
+        &P(\mathcal{A}) \cdot P(\mathcal{B}) =
+        P(\{w \colon X(w) \in A\}) \cdot P(\{w \colon Y(w) \in B\}) =\\
+        &=\sum\limits_{i, j \colon x_i \in A, y_j \in B}
+        P(\{w \colon X(w) = x_i\}) \cdot P(\{w \colon Y(w) = y_j\})
+        =\sum\limits_{i, j \colon x_i \in A, y_j \in B} P(\{w \colon X(w) = x_i, Y(w) = y_j\})
+        =P(\mathcal{A} \cap \mathcal{B})
+    \end{align*}
+    Получили независимость событий $\mathcal{A}$ и $\mathcal{B}$.
+\end{proof}
+\begin{comment}
+    В последнем равенстве во втором равно явно использована абсолютная сходимость рядов
+    \[
+        \sum\limits_{i \colon x_i \in A} P(\{w \colon X(w) = x_i\})
+        \text{ и}
+        \sum\limits_{j \colon y_j \in B} P(\{w \colon Y(w) = y_j\})
+    \]
+    До второго равно написана операция произведения двух рядов, а после второго равно написано что в
+    результате произведения случилось с каждым элементом ряда (по определению произведения
+    абсолютно сходящихся рядов).
+\end{comment}
+
+\subsection{Математическое ожидание случайной величины.}
+Пусть $\{x_1, \ldots, x_n, \ldots\}$ --- множество всех значений, которые принимает случайная величина $X$.
+\begin{definition}
+    \it{Математическим ожиданием} случайной величины $X$ называется число
+    \[
+        \EE(X) = \sum\limits_{j}x_j\mu_X(\{x_j\}) =
+        \sum\limits_{j}x_j P(\{w \colon X(w) = x_j\})
+    \]
+    В определении мы предполагаем, что ряд сходится абсолютно. Если это не так, то считаем, что
+    случайная величина \underline{не имеет конечного математического ожидания}.
+\end{definition}
+\begin{designation}
+    Далее вводим следующее обозначние:
+    \[
+        P(\{w \colon X(w) = x_j\}) \iff P(X = x_j)
+    \]
+\end{designation}
+\begin{lemma}
+    \label{lemma_2.1}
+    Пусть случайная величина $X$ с конечным математическим ожиданием принимает значения $y_k$ на множествах
+    $B_k$, причём события $B_k$ попарно не пересекаются и в объединении дают всё $\Omega$. Тогда
+    \[
+        \EE(X) = \sum\limits_{k} y_k P(B_k)
+    \]
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        \EE(X) &= \sum\limits_{j}x_j P(X = x_j) =
+        \sum\limits_{j} x_j \sum\limits_{k \colon y_k = x_j} P(X = y_k) =\\
+        &=\sum\limits_{j} \sum\limits_{k \colon y_k = x_j}
+        y_k P(X = y_k) = \sum\limits_{j} \sum\limits_{k \colon y_k = x_j}
+        y_k P(B_k) = \sum\limits_{k}
+        y_k P(B_k)
+    \end{align*}
+\end{proof}
+\begin{comment}
+    Заметим, что по условию у нас величина $X$ имеет конечное математическое ожидание, а значит
+    ряд $\sum\limits_{j}x_j P(X = x_j)$ сходится абсолютно, а значит мы можем группировать отдельные
+    его слагаемые, так как мы это делали в доказательстве.
+\end{comment}
+
+\subsection{Мат. ожидание функции от случайной величины.}
+Пусть $\{x_1, \ldots, x_n, \ldots\}$ --- множество всех значений, которые принимает случайная величина $X$.
+\begin{theorem}
+    Если $\phi \colon \RR \to \RR$ --- произвольная функция, то
+    \[
+        \EE(\phi(X)) = \sum\limits_{k} \phi(x_k) P(X = x_k)
+    \]
+    при условии абсолютной сходимости последнего ряда.
+\end{theorem}
+\begin{proof}
+    Следует из \hyperref[lemma_2.1]{предыдущей леммы}: с одной стороны случайная величина
+    принимает какие-то свои значения $\xi_j$ на множествах $\{w \colon \phi(X) (w) = \xi_j\}$,
+    а с другой стороны по \hyperref[lemma_2.1]{лемме} она принимает значения
+    $y_k = \phi(x_k)$ на множествах $B_k = \{w \colon X(w) = x_k\}$.
+\end{proof}
+
+\subsection{Свойства мат. ожидания.}
+\begin{definition}
+    Если некоторое свойство выполняется с вероятностью единица, то говорят, что оно выполняется \it{почти наверное}.
+\end{definition}
+\begin{proposal}
+    Мат. ожидание линейно, а именно: пусть $X, Y$ --- некоторые случайные велиичны, $a, b \in \RR$. Тогда
+    \[
+        \EE(aX + bY) = a\EE(X) + b\EE(Y)
+    \]
+\end{proposal}
+\begin{proof}
+    Пусть $\{x_1, x_2, \ldots\}, \{y_1, y_2, \ldots\}$ --- множества значений случайных величин $X, Y$
+    соответственно. Пусть $B_{k, j} = \{X = x_k, Y = y_j\}$. Заметим, что $B_{k, j}$ попарно не пересекаются,
+    и в объединении дают $\Omega$. Тогда c одной стороны $\EE(X) = \sum\limits_{j} x_j P(X = x_j)$, а
+    с другой стороны $\EE(X) = \sum\limits_{k, j} x_j P(B_{k, j})$. Аналогично для $\EE(Y)$. Теперь
+    \begin{align*}
+        a\EE(X) + b\EE(Y) &= a\sum\limits_{j} x_j P(X = x_j) + b\sum\limits_{k} y_k P(Y = y_k) =\\
+        &=a\sum\limits_{k, j} x_j P(B_{k, j}) + b\sum\limits_{k, j} y_k P(B_{k, j}) =
+        \sum\limits_{k, j} (ax_j + by_k) P(B_{k, j}) = \EE(aX + bY)
+    \end{align*}
+\end{proof}
+\begin{comment}
+    Последнее равенство справедливо по \hyperref[lemma_2.1]{лемме}: т.к. с одной стороны
+    случайная величина $aX + bY$ принимает какие-то свои значения
+    $\xi_i$ на множествах $\{aX + bY = \xi_i\}$, а сдругой стороны она принимает значения
+    $y_k = ax_j + by_k$ на множествах $B_k = B_{k, j}$.
+\end{comment}
+\begin{proposal}
+    Мат. ожидание монотонно, а именно: если $X \geq 0$ почти наверное, то $\EE(X) \geq 0$.
+\end{proposal}
+\begin{proof}
+    По определению:
+    \[
+        \EE(X) = \sum\limits_{j} x_j P(X = x_j)
+    \]
+    Если $x_j \geq 0$, то и вся сумма не меньше нуля.
+\end{proof}
+\begin{corollary}
+    Если $X \geq Y$ почти наверное, то $\EE(X) \geq \EE(Y)$ почти наверное.
+\end{corollary}
+\begin{proof}
+    Рассмотрим случайную величину $Z = X - Y$. Видно, что $Z \geq 0$ почти наверное. Тогда в силу монотонности
+    \[
+        0 \leq \EE(Z) = \EE(X - Y) = \EE(X) - \EE(Y) \iff \EE(X) \geq \EE(Y)
+    \]
+\end{proof}
+\begin{proposal}
+    Если $X \geq 0$ почти наверное, и $\EE(X) = 0$, то $X = 0$ почти наверное.
+\end{proposal}
+\begin{proof}
+    По определению:
+    \[
+        \EE(X) = \sum\limits_{j} x_j P(X = x_j) = 0
+    \]
+    Т.к. $P(X = x_j)$ не может равняться $0$ для всех значений $X$, то $x_j = 0\;\forall\; j$ почти наверное.
+\end{proof}
+\begin{proposal}
+    Справедлива оценка
+    \[
+        |\EE(X)| \leq \EE(|X|)
+    \]
+\end{proposal}
+\begin{proof}
+    Заметим, что $-|X| \leq X \leq |X|$. Воспользуемся теперь монотонностью мат. ожидания:
+    \[
+        -|X| \leq X \leq |X| \iff -\EE(|X|) \leq \EE(X) \leq \EE(|X|) \iff |\EE(X)| \leq \EE(|X|)
+    \]
+\end{proof}
+\begin{proposal}
+    Если случайные величины $X, Y$ независимы, и их мат. ожидания определены, то выполнено
+    \[
+        \EE(XY) = \EE(X) \cdot \EE(Y)
+    \]
+\end{proposal}
+\begin{proof}
+    \begin{align*}
+        \EE(X) \cdot \EE(Y) &= \left( \sum\limits_{i} x_i P(X = x_i) \right) \cdot
+        \left( \sum\limits_{j} y_j P(Y = y_j) \right) =\\
+        &=\sum\limits_{i, j} x_{i}y_j P(X = x_i)P(Y = y_j) =
+        \sum\limits_{i, j} x_i y_j P(\{X = x_1\} \cap \{Y = y_j\}) = \EE(XY)
+    \end{align*}
+\end{proof}
+\begin{comment}
+    Второй переход справедлив в силу абсолютной сходимости рядов. Четвёртый переход справедлив в силу
+    независимости $X, Y$.
+\end{comment}
+
+\subsection{Балансировка векторов.}
+\begin{problem}[Балансировка векторов.]
+    Пусть $v_1, \ldots, v_n \in \RR^n$, и $\forall\;j\; |v_j| = 1$. Всегда ли существует такой набор
+    $\epsilon_1, \ldots, \epsilon_n \in \{-1, 1\}$, что $|\epsilon_1v_1 + \ldots + \epsilon_nv_n| \leq \sqrt{n}$?
+
+    \it{Решение:} Если мы будем выбирать $\epsilon_i$ случайным образом и независимо друг от друга,
+    то значение $|\epsilon_1v_1 + \ldots + \epsilon_nv_n|$ будет случайной величиной.
+    Посчитаем мат. ожидание квадрата этой случайной величины:
+    \begin{align*}
+        &\EE(|\epsilon_1v_1 + \ldots + \epsilon_nv_n|^2) = \EE\left( \sum\limits_{i, j} (v_i, v_j) \epsilon_i\epsilon_j \right)
+        =\sum\limits_{i, j} (v_i, v_j) \EE(\epsilon_i\epsilon_j) = \sum\limits_{i}^n |v_i| = \sum\limits_{i}^n 1 = n
+    \end{align*}
+\end{problem}
+\begin{comment}
+    По определению длины вектора: $|v| = \sqrt{(v, v)}$, т.е.
+    \[
+        \left| \sum\limits_{j} \epsilon_{j}v_j \right|^2 =
+        \sqrt{\left( \sum\limits_{i} \epsilon_{i}v_i, \sum\limits_{j} \epsilon_{j}v_j \right)^2} =
+        \left( \sum\limits_{i} \epsilon_{i}v_i, \sum\limits_{j} \epsilon_{j}v_j \right) =
+        \sum\limits_{i, j} (v_i, v_j) \epsilon_i\epsilon_j
+    \]
+    Заметим так же, что при $i \neq j$ мы имеем $\EE(\epsilon_i\epsilon_j) = \EE(\epsilon_i)\EE(\epsilon_j)$
+    (в силу независимости выбора $\epsilon_i$) и $\EE(\epsilon_i)\EE(\epsilon_j) =
+    \left( 1\cdot\frac{1}{2} + (-1)\cdot\frac{1}{2} \right) \cdot 2 = 0$
+    в силу того, что мы выбираем $\epsilon_i$ равновероятно с вероятностью
+    выбора $\frac{1}{2}$.
+
+    С другой стороны, при $i = j$ имеем $\sum\limits_{i} (v_i, v_i) = |v_i|^2$ и $\EE(\epsilon_i)\EE(\epsilon_i) =
+    \EE(\epsilon_i^2) = 1$.
+\end{comment}
+
+\subsection{Дисперсия, ковариация, коэффициент корреляции.}
+\begin{definition}
+    Пусть $X$ --- случайная величина. \it{Дисперсией} случайной величины $X$ называется число
+    \[
+        \DD(X) = \EE(X - \EE(X))^2
+    \]
+\end{definition}
+\begin{definition}
+    Пусть $X, Y$ --- две случайные величины. \it{Ковариацией} пары случайных величин $X, Y$ называется число
+    \[
+        \cov(X, Y) = \EE\left[ (X - \EE(X))(Y - \EE(Y)) \right]
+    \]
+\end{definition}
+\begin{proposal}
+    Ковариация пары случайных величин является билинейной формой.
+\end{proposal}
+\begin{proof}
+    Приведём определение ковариации к следующему, более удобному виду:
+    \begin{align*}
+        \cov(X, Y) &= \EE\left[ (X - \EE(X))(Y - \EE(Y)) \right] =
+        \EE(XY - \EE(Y)X - \EE(X)Y - \EE(X)\EE(Y)) =\\
+        &=\EE(XY) - \EE(X)\EE(Y) - \EE(X)\EE(Y) + \EE(X)\EE(Y) =
+        \EE(XY) - \EE(X)\EE(Y)
+    \end{align*}
+    Проверим линейность по первому аргументу (по второму аналогично):
+    \begin{align*}
+        \cov(aX_1 + bX_2, Y) & = \EE((aX_1 + bX_2)Y) - \EE(aX_1 + bX_2)\EE(Y) =\\
+        &=\EE(aX_{1}Y + bX_2Y) - a\EE(X_1)\EE(Y) - b\EE(X_2)\EE(Y) =\\
+        &=a\EE(X_{1}Y) + b\EE(X_2Y) - a\EE(X_1)\EE(Y) - b\EE(X_2)\EE(Y) =\\
+        &=\left[ a\EE(X_{1}Y) - a\EE(X_1)\EE(Y) \right] + \left[ b\EE(X_2Y) - b\EE(X_2)\EE(Y) \right]=\\
+        &=a\cov(X_1, Y) + b\cov(X_2, Y)
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    Квадратичная форма $\cov(X, X)$ неотрицательно определённа.
+
+    Действительно: $\forall\; X \implies \cov(X, X) = \EE(X - \EE(X))^2 \geq 0$.
+\end{corollary}
+\begin{corollary}
+    \[
+        \DD(X) = \EE(X - \EE(X))^2 = \cov(X, X) = \EE(X^2) - \EE(X)^2
+    \]
+\end{corollary}
+\begin{comment}
+    Мы доказали, что ковариация является может не самым простым, но всё же линейным объектом, с которыми мы работать
+    умеем. Кроме того мы вывели связь непонятной для нас дисперсии, и довольно понятной ковариации: оказывается, что
+    дисперсия является просто квадратичной формой, ассоциированной с ковариацией. Это позволяет нам считать дисперсию
+    от неочевидных сочетаний случайных величин.
+\end{comment}
+\begin{example}
+    Пусть например мы всё знаем про величины $X, Y$ по отдельности, и требуется посчитать $\DD(X + Y)$. Используем
+    связь дисперсии и ковариации:
+    \[
+        \DD(X + Y) = \cov(X + Y, X + Y) = \cov(X, X) + 2\cov(X, Y) + \cov(Y, Y) = \DD(X) + 2\cov(X, Y) + \DD(Y)
+    \]
+    Получили сумму каких-то выражений, значения которых нам должны быть известны.
+\end{example}
+\begin{definition}
+    Пусть $X, Y$ --- случайные величины. \it{Коэффициентом корреляции} пары случайных величин называется величина
+    \[
+        \rho(X, Y) = \frac{\cov(X, Y)}{\sqrt{\DD(X)}\sqrt{\DD(Y)}}
+    \]
+\end{definition}
+
+\subsection{Основные свойства дисперсии и ковариации.}
+\begin{proposal}
+    Если $\DD(X) = 0$, то $X = \EE(X)$ почти наверное.
+\end{proposal}
+\begin{proof}
+    \[
+        \DD(X) = \EE(X - \EE(X))^2 = 0 \implies \EE(X - \EE(X)) = 0 \implies
+        X - \EE(X) = 0 \implies X = \EE(X)
+    \]
+    Второй переход верен в силу свойства мат. ожидания: если $X \geq 0$ и $\EE(X) = 0$, то $X = 0$ почти наверное.
+\end{proof}
+\begin{proposal}
+    Для произвольных $a, b \in \RR$ верно: $\DD(aX + b) = a^2\DD(X)$.
+\end{proposal}
+\begin{proof}
+    \begin{align*}
+        \DD(aX + b) &= \EE(aX + b - \EE(aX + b))^2 = \EE(aX + b - \EE(aX) - b)^2 =
+        \EE(aX - \EE(aX))^2 =\\
+        &=\DD(aX) = \cov(aX, aX) = a^2\cov(X, X) = a^2\DD(X)
+    \end{align*}
+\end{proof}
+\begin{proposal}
+    Пусть $X, Y$ --- независимые случайные величины. Тогда $\cov(X, Y) = 0$
+\end{proposal}
+\begin{proof}
+    \[
+        \cov(X, Y) = \EE(XY) - \EE(X)\EE(Y) = \EE(X)\EE(Y) - \EE(X)\EE(Y) = 0
+    \]
+\end{proof}
+\begin{corollary}
+    Если $X, Y$ --- независыми, то $\DD(X + Y) = \DD(X) + \DD(Y)$.
+
+    Действительно, $\DD(X + Y) = \DD(X) + \underbrace{2\cov(X, Y)}_{0} + \DD(Y) = \DD(X) + \DD(Y)$.
+\end{corollary}
+
+\subsection{Неравенство Коши-Буняковского и линал нам в анал.}
+\begin{proposal}
+    Если определены $\EE(X^2)$ и $\EE(Y^2)$, и $\exists\; a, b\in \RR \colon aX + bY = 0$ почти наверное, то
+    справедливо неравенство Коши-Буняковского
+    \[
+        |\EE(XY)| \leq \sqrt{\EE(X^2)}\sqrt{\EE(Y^2)}
+    \]
+\end{proposal}
+\begin{proof}
+    Неравенство очевидно верно при $\EE(X^2) = 0$ или $\EE(Y^2) = 0$. Рассмотрим для случая $\EE(X^2) > 0$ и
+    $\EE(Y^2) > 0$:
+
+    Рассмотрим квадратичную функцию $f(t) = \EE(Y - tX)^2 = \EE(Y^2) - 2t\EE(XY) + t^2\EE(X^2)$. Заметим, что
+    $\forall\; t \implies f(t) \geq 0$. Отсюда следует неположительность дискриминанта (если бы дискриминант
+    был положителен, то какая-то часть параболы была под осью $OX$, а значит функция бы не была неотрицательна
+    при любых $t$):
+    \[
+        D = 4\EE(XY)^2 - 4\EE(X^2)\EE(Y^2) \leq 0 \iff
+        \EE(XY)^2 \leq \EE(X^2)\EE(Y^2) \iff
+        |\EE(XY)| \leq \sqrt{\EE(X^2)}\sqrt{\EE(Y^2)}
+    \]
+\end{proof}
+
+Рассмотрим $V$ --- векторное пространство случайных величин (тут даже я охуел). Вспомним, что для случайных величин
+действительно определено умножение на число и сложение, поэтому множество случайных величины с этими
+двумя операциями действительно будет векторным пространством. Введём скалярное произведение на $V$ по следующему
+правилу:
+\[
+    (X, Y) = \cov(X, Y)
+\]
+Тогда длину векторов (случайных величин) будем измерять по определению:
+\[
+    \forall\;X \in V \implies |X| = \sqrt{(X, X)} = \sqrt{\cov(X, X)} = \sqrt{\DD(X)}
+\]
+Тогда коэффициент корреляции на случайных величинах из $V$ принимает следующий вид:
+\[
+    \rho(X, Y) = \frac{\cov(X, Y)}{\sqrt{\DD(X)}\sqrt{\DD(Y)}} =
+    \frac{(X, Y)}{|X||Y|} = \cos(X, Y)
+\]
+
+\subsection{Мат. ожидание и дисперсия биномиального распределения.}
+Пусть случайная величина $S_n$ имеет биномиальное распределение, т.е. $P(S_n = k) = \binom{n}{k}p^k(1 - p)^{n-k}$.
+Найдём мат. ожидание и дисперсию:
+
+Введём $X_1, \ldots, X_n$ --- независимые бернулиевские случайные величины, т.е.
+\[
+    X_k =
+    \begin{cases}
+        1 & P(X_k = 1) = p\\
+        0 & P(X_k = 0) = 1 - p
+    \end{cases}
+\]
+Очевидно, что $\EE(X_k) = p$. Тогда $S_n = \sum\limits_{k = 1}^n X_k$, и соответственно
+$\EE(S_n) = \sum\limits_{k = 1}^n \EE(X_k) = \sum\limits_{k = 1}^n p = np$.
+
+Т.к. $X_k$ --- независимы, то $\DD(S_n) = \sum\limits_{k = 1}^n \DD(X_k) = n\DD(X_k) =
+n\EE(X_k - \EE(X_k))^2 = n\EE(X_k - p)^2 = n\left( (1-p)^2 \cdot p + p^2 \cdot (1 - p) \right) = np(1 - p)$.
+
+\subsection{Неравенство Чебышева (Маркова).}
+\begin{theorem}[Неравенство Чебышева.]
+    Если $X \geq 0$ почти наверное, то $\forall\; t > 0 \in \RR$ выполнено
+    \[
+        P(X \geq t) \leq \frac{\EE(X)}{t}
+    \]
+    Понимать это неравенство можно так: при $t > \EE(X)$ неравенство даёт некую оценку на вероятность того,
+    что значения случайной величины будут больше её мат. ожидания.
+\end{theorem}
+\begin{proof}
+    Покажем, что $\EE(X) \geq tP(X \geq t)$: по определению:
+    \[
+        \EE(X) = \sum\limits_{j} x_j P(X = x_j)
+    \]
+    Оценим ряд снизу: если $x_j < t$, то заменим $x_j$ на ноль. Иначе если $x_j \geq t$, то заменим
+    $x_j$ на $t$. Имеем:
+    \[
+        \EE(X) = \sum\limits_{j} x_j P(X = x_j) \geq t\sum\limits_{i = 1}^{k}p_i, \;\;\; k \in [0, +\infty]
+    \]
+    Видно, что стоящая справа сумма (или ряд) равносильна $t \cdot P(X \geq t)$.
+\end{proof}
+\begin{corollary}
+    \label{ChebyshevCorollary}
+    Если $\EE(X^2) < \infty$, то $\forall\; \epsilon > 0$ верно
+    \[
+        P(|X - \EE(X)| \geq \epsilon) \leq \frac{\DD(X)}{\epsilon^2}
+    \]
+\end{corollary}
+\begin{proof}
+    По неравенству Чебышева:
+    \[
+        P(|X - \EE(X)| \geq \epsilon) \leq \frac{\EE(|X - \EE(X)|)}{\epsilon} \leq \frac{\EE(X - \EE(X))^2}{\epsilon^2}
+        = \frac{\DD(X)}{\epsilon^2}
+    \]
+\end{proof}

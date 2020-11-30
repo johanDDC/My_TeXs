@@ -1,0 +1,462 @@
+\definecolor{wwwwff}{rgb}{0.4,0.4,1}
+\definecolor{qqqqff}{rgb}{0,0,1}
+\definecolor{ttttff}{rgb}{0.2,0.2,1}
+\definecolor{qqqqzz}{rgb}{0,0,0.6}
+\definecolor{qqqqcc}{rgb}{0,0,0.8}
+
+\section{Алгебры.}
+
+\subsection{Определения.}
+Пусть множество $X$ не пусто.
+\begin{definition}
+    \it{Алгеброй подмножеств множества $X$} (алгеброй) называется набор $\mathcal{A} \subset 2^X$, если выполнены следующие свойства:
+    \begin{enumerate}
+        \item $X, \nothing \in \mathcal{A}$.
+        \item $A, B \in \mathcal{A} \implies A \setminus B, A \cap B, A \cup B \in \mathcal{A}$.
+    \end{enumerate}
+\end{definition}
+\begin{definition}
+    \it{$\sigma$-алгеброй} называется набор $\mathcal{A} \subset 2^X$, если выполнены следующие свойства:
+    \begin{enumerate}
+        \item $\mathcal{A}$ является алгеброй.
+        \item Если множества $A_1, A_2, \ldots \in \mathcal{A}$, то их счётные объединение и пересечение также
+        там лежат: $\bigcap_{j = 0}^{\infty} A_j \in \mathcal{A}, \bigcup_{j = 0}^{\infty} A_j \in \mathcal{A}$
+    \end{enumerate}
+\end{definition}
+
+\subsection{Примеры $\sigma$-алгебр.}
+\begin{example}{(Собственные $\sigma$-алгебры.)\\}
+    Наборы $\{\nothing, X\}$ и $2^X$ очевидно являются $\sigma$-алгебрами.
+\end{example}
+
+\begin{example}
+    Пусть $B \subset X$ --- произвольно подмножество. Тогда набор $\{\nothing, B, X \setminus B, X\}$ является
+    $\sigma$-алгеброй. Ну действительно: $\nothing$ и $X$ в нём лежит, объединение любых множеств из набора, как
+    конечное, так и счётное снова даст множество из набора (проверяется перебором всех случаев). Аналогично для
+    пересечения и разности.
+\end{example}
+
+\begin{example}
+    \label{alg_example1}
+    Пусть $X = \NN$. Рассмотрим следующий набор:
+    $\mathcal{A} = \{\text{конечные множества (включая $\nothing$) и дополнения к конечным}\}$. Очевидно, что $\nothing$ и $\NN$
+    в нём лежит ($\NN = \overline{\nothing}$). Кроме того при конечном объединении конечных множеств мы получаем
+    конечное множество. При конечном объединении дополнений к конечным множествам мы получим дополнение к некоторому
+    конечному множеству. Аналогично для конечного объединения конечного множества и его дополнения. Аналогично все
+    возможные разности так же снова будут лежать в этом наборе. При этом отдельно для любого множества $A$ из нашего
+    набора разность вида $\NN \setminus A$ можно воспринимать как дополнение $A$ ($\overline{A}$), и они все будут
+    лежать в наборе. Кроме того наш набор так же замкнут относительно конечного операции пересечения, т.к. мы уже выяснили, что
+    всевозможные объединения и дополнения множеств из набора снова лежат в наборе, по закону де Моргана операция
+    пересечения выражается через операции объединения и дополнения.\\
+    Таким образом набор $\mathcal{A}$ является алгеброй.\\
+    Рассмотрим подмножество $2\NN$ --- подмножество чётных чисел. Оно являет счётным объединением конечных множеств
+    ($2\NN = \bigcup_{i = 0}^{\infty} 2i$), но не является дополнением ни к какому конечному множеству, а значит не
+    лежит в $\mathcal{A}$. Таким образом $\mathcal{A}$ не является $\sigma$-алгеброй.
+\end{example}
+
+\begin{example}
+    \label{length example}
+    Пусть $X = [0, 1]$. Рассмотрим набор $\mathcal{A} = \{\text{конечное объединение попарно непересекающихся
+    промежутков на $X$}\}$, где под промежутком понимаются интервалы, отрезки и полуинтервалы.\\
+    Очевидно, что сам $X$ там лежит. Пустое множество можно обозначить как $(a, a)$ например, оно там также лежит.
+    Очевидно, что конечное объединение конечных объединений в свою очередь будет являться конечным объединением, и
+    будет лежать в наборе. Кроме того понятно, что разность двух конечных объединений промежутков может быть либо
+    пустым множеством, либо конечным объединением, и, соответственно, в обоих случаях она будет лежать в наборе.
+    Рассмотрим теперь операцию пересечения двух конечных объединений промежутков:\\
+    Пусть у нас есть два конечных объединения попарно не пересекающихся промежутков: $\bigsqcup_{n = 1}^N I_n$
+    и $\bigsqcup_{k = 1}^M J_k$. Тогда имеем:
+    \[
+        \bigsqcup_{n = 1}^N I_n \cap \bigsqcup_{k = 1}^M J_k =
+        \bigsqcup_{n = 1}^N \left( I_n \cap \bigsqcup_{k = 1}^M J_k \right) =
+        \bigsqcup_{n = 1}^N \bigsqcup_{k = 1}^M I_n \cap J_k
+    \]
+    Т.к. никакие промежутки у нас попарно не пересекаются, то $I_n \cap J_k$ может быть равно
+    \begin{itemize}
+        \item $\nothing$, если $I_n \neq J_k$;
+        \item некоторому отрезку, если $I_n = J_k$;
+    \end{itemize}
+    В любом из двух случаев мы снова получаем множество из $\mathcal{A}$. Таким образом $\mathcal{A}$ является
+    алгеброй.\\
+    Чтобы показать, что $\mathcal{A}$ не является $\sigma$-алгеброй, покажем, что ...?
+\end{example}
+Именно с последнего примера мы и начнём вникать в понятие \it{длины множества}.
+
+\subsection{Порождённая $\sigma$-алгебра}
+\begin{proposal}
+    Пусть наборы $\mathcal{A}, \mathcal{B}$ --- $\sigma$-алгебры. Тогда $\mathcal{A} \cap \mathcal{B}$
+    так же является $\sigma$-алгеброй.
+\end{proposal}
+\begin{proof}
+    Пусть $\mathcal{F} = \mathcal{A} \cap \mathcal{B}$. Очевидно, что $\nothing$ и $X \in \mathcal{F}$,
+    т.к. они лежали в исходнных $\sigma$-алгебрах. Пусть теперь $A, B \in \mathcal{F}$. Значит $A, B$
+    лежали так же в исходных $\sigma$-алгебрах, а значит в них же лежали их пересечение, объединение и
+    разность, а значит они так же лежат и в $\mathcal{F}$. Пусть теперь $A_1, A_2, \ldots \in \mathcal{F}$
+    --- произвольный счётный набор множеств. Значит этот набор также лежал в $\mathcal{A}$ и $\mathcal{B}$,
+    а значит там же лежали их счётные объединение и пересечение (т.к. $\sigma$-алгебры), а значит они
+    так же лежат в $\mathcal{F}$.
+\end{proof}
+\begin{corollary}
+    Пересечение произвольного числа $\sigma$-алгебр является $\sigma$-алгеброй.
+\end{corollary}
+Пусть $S$ --- какой-то набор подмножеств множества $X$.
+\begin{definition}
+    $\sigma(S)$ называется $\sigma$-алгеброй, \it{порождённой} $S$. $\sigma(S)$ есть пересечение всех
+    $\sigma$-алгебр, содержащих $S$.
+\end{definition}
+\begin{example}
+    Пусть $S = \{B\}$. Тогда $\sigma(S) = \{\nothing, B, X \setminus B, X\}$
+\end{example}
+%    \begin{example}
+%        Пусть $S = \{B_1, B_2, \ldots, B_n\}$.
+%    \end{example}
+\begin{example}
+    (Борелевские $\sigma$-алгебры)
+
+    $\mathcal{B}[0, 1]$ --- $\sigma$-алгебра порождена всеми возможными промежутками на $[0 ,1]$.
+
+    $\mathcal{B}(\RR)$ --- $\sigma$-алгебра порождена всеми возможными промежутками на $\RR$.
+
+    Такие $\sigma$-алгебры называются \it{Борелевскими $\sigma$-алгебрами}. Аналогично определяются
+    Борелевские $\sigma$-алгебры в многомерном случае.
+\end{example}
+\begin{proposal}
+    \[
+        \mathcal{B}(\RR) = \sigma((a, +\infty))
+    \]
+\end{proposal}
+\begin{proof}
+    Включение $\mathcal{B}(\RR) \supseteq \sigma((a, +\infty))$ очевидно.\\
+    Докажем $\mathcal{B}(\RR) \subseteq \sigma((a, +\infty))$.
+    Докажем, что $\sigma((a, +\infty))$ содержит так же все промежутки. Понятно, что для этого достаточно
+    показать, что $\sigma((a, +\infty))$ содержит всевозможные лучи во всех концах. Обозначим
+    $\sigma((a, +\infty))$ как $\mathcal{A}$. Тогда:
+    \begin{itemize}
+        \item $\mathcal{A}$ содержит лучи вида $(-\infty, a]$, т.к. они являются дополнением к лучам вида
+        $(a, +\infty)$, а все дополнения лежат в $\mathcal{A}$.
+        \item $\mathcal{A}$ содержит лучи вида $(-\infty, a)$, как счётное объединение лучей вида
+        $\left( -\infty, a - \frac{1}{n} \right]$.
+        \item $\mathcal{A}$ содержит лучи вида $[a, \infty)$, как дополнение к лучам вида $(-\infty, a)$.
+    \end{itemize}
+    Таким образом мы показали, что $\mathcal{A}$ содержит все возможные виды лучей. Далее применяя операцию
+    разности множеств можно получить всевозможные промежутки, а это в точности $\mathcal{B}(\RR)$.
+\end{proof}
+Пусть $\mathcal{A}, \mathcal{B}$ --- две $\sigma$-алгебры.
+\begin{definition}
+    \it{Произведением} $\sigma$-алгебр $\mathcal{A}$ и $\mathcal{B}$ называется $\sigma$-алгебра
+    $\mathcal{C}$, такая что
+    \[
+        \mathcal{A} \otimes \mathcal{B} = \mathcal{C} =
+        \sigma\left( \left\{ A \times B \colon A \in \mathcal{A}, B \in \mathcal{B} \right\} \right)
+    \]
+\end{definition}
+\begin{problem}
+    Возьмём Борелевскую $\sigma$-алгебру на плоскости $\mathcal{B}(\RR^2)$. По аналогии с Борелевской
+    $\sigma$-алгеброй на прямой можно показать, что
+    \[
+        \mathcal{B}(\RR^2) = \sigma(\{B_i \subset \RR^2 \colon B_i \text{ --- открытое множество}\})
+    \]
+    \begin{enumerate}
+        \item Покажите, что $\mathcal{B}(\RR^2)$ совпадает с $\sigma$-алгеброй, порождённой всеми
+        открытыми прямоугольниками в $\RR^2$, где под ''открытыми прямоугольниками`` понимается
+        декартово произведение интервалов.
+        \item Докажите, что $\mathcal{B}(\RR^2) = \mathcal{B}(\RR) \otimes \mathcal{B}(\RR)$.
+    \end{enumerate}
+    \it{Решение:}
+
+    1) Введём обозначение: $\mathcal{O} = \sigma(\{B_i \subset \RR^2 \colon B_i \text{ --- открытое множество}\})$,
+    $\sigma(\Box)$ --- $\sigma$-алгебра, порождённая всеми открытыми прямоугольниками. Тогда очевидно
+    включение $\mathcal{O} \supset \sigma(\Box)$. Покажем теперь включение в обратную сторону.
+
+    По определению: некоторое множество называется открытым, если каждая точка входит в него с некоторым
+    открытым шаром. Пусть $U \in \sigma(\Box)$ --- открытое множество. И пусть $a \in U$ --- произвольная
+    точка. Тогда, т.к. $U$ --- открытое множество, то $\exists ~ B(a, r ) \subset U$ --- открытый шар с
+    центром в точке $a$ некоторого радиуса $r$. Но в каждый шар можно вписать прямоугольник, в котором
+    данная точка будет содержаться. Впишем прямоугольник в открытый шар $B$, и будем уменьшать его до тех
+    пор, пока все вершины прямоугольника не станут рациональными точками. Более формально:
+    $\forall ~ a \in U ~ \exists ~ \Box$ c рациональными вершинами $ \colon a \in \Box \subset U$. А
+    значит, $U$ разбивается на пересечение таких квадратиков $\Box$, причём, т.к. их вершины являются
+    рациональными точками, то таких квадратиков не более чем счётно, а значит $\mathcal{O} \subset \sigma(\Box)$,
+    и $\mathcal{O} = \sigma(\Box)$.
+    \begin{align*}
+        &\definecolor{qqffcc}{rgb}{0,1,0.8}
+        \definecolor{qqqqzz}{rgb}{0,0,0.6}
+        \definecolor{qqqqcc}{rgb}{0,0,0.8}
+        \definecolor{ccqqqq}{rgb}{0.8,0,0}
+        \definecolor{ffcccc}{rgb}{1,0.8,0.8}
+        \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=20,y=20]
+            \draw[->,color=black] (-0.63,0) -- (13.11,0);
+            \foreach \x in {,1,2,3,4,5,6,7,8,9,10,11,12,13}
+            \draw[shift={(\x,0)},color=black] (0pt,-2pt);
+            \draw[->,color=black] (0,-0.27) -- (0,10.88);
+            \foreach \y in {,1,2,3,4,5,6,7,8,9,10}
+            \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt);
+            \clip(-0.63,-0.27) rectangle (13.11,10.88);
+            \fill[color=ffcccc,fill=ffcccc,fill opacity=0.1] (3.86,7.22) -- (5.58,7.78) -- (10.86,5.28) -- (8.6,4.48) -- (8.92,1.78) -- (7.74,0.28) -- (4.9,1.72) -- (1.82,2.56) -- cycle;
+            \fill[color=ccqqqq,fill=ccqqqq,fill opacity=0.15] (2.87,3.36) -- (4.77,3.36) -- (4.77,5.25) -- (2.87,5.25) -- cycle;
+            \fill[color=qqffcc,fill=qqffcc,fill opacity=0.4] (3,5) -- (4.45,5) -- (4.45,3.9) -- (3,3.9) -- cycle;
+            \draw [shift={(3.19,4.74)},color=ffcccc,fill=ffcccc,fill opacity=0.1]  plot[domain=1.31:4.15,variable=\t]({1*2.57*cos(\t r)+0*2.57*sin(\t r)},{0*2.57*cos(\t r)+1*2.57*sin(\t r)});
+            \draw [shift={(6.91,3.77)},color=ffcccc,fill=ffcccc,fill opacity=0.1]  plot[domain=0.37:1.89,variable=\t]({1*4.23*cos(\t r)+0*4.23*sin(\t r)},{0*4.23*cos(\t r)+1*4.23*sin(\t r)});
+            \draw [color=ffcccc] (3.86,7.22)-- (5.58,7.78);
+            \draw [color=ffcccc] (10.86,5.28)-- (8.6,4.48);
+            \draw [color=ffcccc] (8.6,4.48)-- (8.92,1.78);
+            \draw [color=ffcccc] (8.92,1.78)-- (7.74,0.28);
+            \draw [color=ffcccc] (7.74,0.28)-- (4.9,1.72);
+            \draw [color=ffcccc] (4.9,1.72)-- (1.82,2.56);
+            \draw [dash pattern=on 2pt off 2pt,color=qqqqzz] (3.82,4.31) circle (1.34cm);
+            \begin{scriptsize}
+                \draw[color=black] (7,4.93) node {\boldmath{$U$}};
+                \fill [color=qqqqcc] (3.82,4.31) circle (1.5pt);
+                \draw[color=qqqqcc] (3.91,4.47) node {a};
+                \draw[color=qqqqzz] (2.72,5.48) node {$B(a, r)$};
+            \end{scriptsize}
+        \end{tikzpicture}\\
+        &\text{Здесь $U$ --- открытое множество, $a$ --- произвольная точка в нём,}\\
+        &\text{$B(a, r)$ --- открытый шар точки $a$,}\\
+        &\text{красный квадрат --- произвольный вписаный в шар прямоугольник,}\\
+        &\text{зелёный квадрат --- прямоугольник с рациональными вершинами.}
+    \end{align*}
+
+    ~\\
+
+    2) Введём обозначение: $\mathcal{A} = \sigma\left(\Box\right)$ --- $\sigma$-алгебра, порождённая всеми
+    открытыми прямоугольниками. Известно, что $\mathcal{A} = \mathcal{B}(\RR^2)$.
+    По определению $\mathcal{B}(\RR) \otimes \mathcal{B}(\RR) =
+    \sigma\left( \left\{ B_1 \times B_2 \colon B_i \in \mathcal{B}(\RR) \right\} \right)$. Множество
+    $B_1 \times B_{2}, B_i \in \mathcal{B}(\RR)$ называется \it{измеримым прямоугольником}.
+    Для большего понимания происходящего изобразим на плоскости открытый прямоугольник и измеримый
+    прямоугольник:
+    \begin{align*}
+        &\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1.4,y=1.5]
+             \draw[->,color=black] (-1.98,0) -- (141.21,0);
+             \foreach \x in {,10,20,30,40,50,60,70,80,90,100,110,120,130,140}
+             \draw[shift={(\x,0)},color=black] (0pt,-2pt);
+             \draw[->,color=black] (0,-1.54) -- (0,114.35);
+             \foreach \y in {,10,20,30,40,50,60,70,80,90,100,110}
+             \draw[shift={(0,\y)},color=black] (-2pt,0pt);
+             \clip(-1.98,-1.54) rectangle (141.21,114.35);
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (6.45,81.86) -- (15.84,81.86) -- (15.84,95.3) -- (6.45,95.3) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (30,81.86) -- (40,81.86) -- (40,95.3) -- (30,95.3) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (48.52,81.86) -- (50,81.86) -- (50,95.3) -- (48.52,95.3) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (60,81.86) -- (90,81.86) -- (90,95.3) -- (60,95.3) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (105.89,81.86) -- (114.35,81.86) -- (114.35,95.3) -- (105.89,95.3) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (105.89,64.24) -- (105.89,61.34) -- (114.35,61.34) -- (114.35,64.24) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (105.89,40) -- (114.35,40) -- (114.35,22.87) -- (105.89,22.87) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (105.89,16.96) -- (114.35,16.96) -- (114.35,10) -- (105.89,10) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (90,10) -- (90,16.96) -- (60,16.96) -- (60,10) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (50,10) -- (50,16.96) -- (48.52,16.96) -- (48.52,10) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (40,16.96) -- (40,10) -- (30,10) -- (30,16.96) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (15.84,10) -- (15.84,16.96) -- (6.45,16.96) -- (6.45,10) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (15.84,22.87) -- (15.84,40) -- (6.45,40) -- (6.45,22.87) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (6.45,61.34) -- (6.45,64.24) -- (15.84,64.24) -- (15.84,61.34) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (60,64.24) -- (90,64.24) -- (90,61.34) -- (60,61.34) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (60,40) -- (90,40) -- (90,22.87) -- (60,22.87) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (50,22.87) -- (50,40) -- (48.52,40) -- (48.52,22.87) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (40,22.87) -- (30,22.87) -- (30,40) -- (40,40) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (30,61.34) -- (30,64.24) -- (40,64.24) -- (40,61.34) -- cycle;
+             \fill[dash pattern=on 7pt off 7pt,color=ttttff,fill=ttttff,fill opacity=0.2] (48.52,61.34) -- (48.52,64.24) -- (50,64.24) -- (50,61.34) -- cycle;
+             \draw [line width=2.8pt,color=ttttff] (0,10)-- (0,16.96);
+             \draw [line width=2.8pt,color=qqqqff] (0,22.87)-- (0,40);
+             \draw [line width=2.8pt,color=ttttff] (0,61.34)-- (0,64.24);
+             \draw [line width=2.8pt,color=ttttff] (0,81.86)-- (0,95.3);
+             \draw [line width=2.8pt,color=ttttff] (6.45,0)-- (15.84,0);
+             \draw [line width=2.8pt,color=ttttff] (30,0)-- (40,0);
+             \draw [line width=2.8pt,color=ttttff] (48.52,0)-- (50,0);
+             \draw [line width=2.8pt,color=ttttff] (60,0)-- (90,0);
+             \draw [line width=2.8pt,color=ttttff] (105.89,0)-- (114.35,0);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,81.86)-- (15.84,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,81.86)-- (15.84,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,95.3)-- (6.45,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,95.3)-- (6.45,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,81.86)-- (40,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,81.86)-- (40,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,95.3)-- (30,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,95.3)-- (30,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,81.86)-- (50,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,81.86)-- (50,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,95.3)-- (48.52,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,95.3)-- (48.52,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,81.86)-- (90,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,81.86)-- (90,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,95.3)-- (60,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,95.3)-- (60,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,81.86)-- (114.35,81.86);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,81.86)-- (114.35,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,95.3)-- (105.89,95.3);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,95.3)-- (105.89,81.86);
+             \draw [line width=1.6pt,color=wwwwff] (105.89,74.21)-- (114.35,74.21);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,64.24)-- (105.89,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,61.34)-- (114.35,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,61.34)-- (114.35,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,64.24)-- (105.89,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,40)-- (114.35,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,40)-- (114.35,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,22.87)-- (105.89,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,22.87)-- (105.89,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,16.96)-- (114.35,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,16.96)-- (114.35,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (114.35,10)-- (105.89,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (105.89,10)-- (105.89,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,10)-- (90,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,16.96)-- (60,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,16.96)-- (60,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,10)-- (90,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,10)-- (50,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,16.96)-- (48.52,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,16.96)-- (48.52,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,10)-- (50,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,16.96)-- (40,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,10)-- (30,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,10)-- (30,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,16.96)-- (40,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,10)-- (15.84,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,16.96)-- (6.45,16.96);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,16.96)-- (6.45,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,10)-- (15.84,10);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,22.87)-- (15.84,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,40)-- (6.45,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,40)-- (6.45,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,22.87)-- (15.84,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,61.34)-- (6.45,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (6.45,64.24)-- (15.84,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,64.24)-- (15.84,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (15.84,61.34)-- (6.45,61.34);
+             \draw [line width=1.6pt,color=wwwwff] (6.45,74.21)-- (15.84,74.21);
+             \draw [line width=1.6pt,color=wwwwff] (30,74.21)-- (40,74.21);
+             \draw [line width=1.6pt,color=wwwwff] (48.52,74.21)-- (50,74.21);
+             \draw [line width=1.6pt,color=wwwwff] (60,74.21)-- (90,74.21);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,64.24)-- (90,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,64.24)-- (90,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,61.34)-- (60,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,61.34)-- (60,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,40)-- (90,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,40)-- (90,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (90,22.87)-- (60,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (60,22.87)-- (60,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,22.87)-- (50,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,40)-- (48.52,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,40)-- (48.52,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,22.87)-- (50,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,22.87)-- (30,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,22.87)-- (30,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,40)-- (40,40);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,40)-- (40,22.87);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,61.34)-- (30,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (30,64.24)-- (40,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,64.24)-- (40,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (40,61.34)-- (30,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,61.34)-- (48.52,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (48.52,64.24)-- (50,64.24);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,64.24)-- (50,61.34);
+             \draw [dash pattern=on 7pt off 7pt,color=ttttff] (50,61.34)-- (48.52,61.34);
+             \begin{scriptsize}
+                 \fill [color=qqqqff] (0,74.21) ++(-2.5pt,0 pt) -- ++(2.5pt,2.5pt)--++(2.5pt,-2.5pt)--++(-2.5pt,-2.5pt)--++(-2.5pt,2.5pt);
+             \end{scriptsize}
+        \end{tikzpicture}
+        &\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=18,y=18]
+             \draw[->,color=black] (-0.42,0) -- (11.78,0);
+             \foreach \x in {,1,2,3,4,5,6,7,8,9,10,11}
+             \draw[shift={(\x,0)},color=black] (0pt,-2pt);
+             \draw[->,color=black] (0,-0.29) -- (0,9.58);
+             \foreach \y in {,1,2,3,4,5,6,7,8,9}
+             \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt);
+             \clip(-0.42,-0.29) rectangle (11.78,9.58);
+             \fill[dash pattern=on 3pt off 3pt,color=qqqqzz,fill=qqqqzz,fill opacity=0.1] (2.46,8.6) -- (7.02,8.6) -- (7.02,2.38) -- (2.46,2.38) -- cycle;
+             \draw [line width=2.8pt,color=qqqqcc] (2.46,0)-- (7.02,0);
+             \draw [line width=2.8pt,color=qqqqcc] (0,2.38)-- (0,8.6);
+             \draw [dash pattern=on 3pt off 3pt,color=qqqqzz] (2.46,8.6)-- (7.02,8.6);
+             \draw [dash pattern=on 3pt off 3pt,color=qqqqzz] (7.02,8.6)-- (7.02,2.38);
+             \draw [dash pattern=on 3pt off 3pt,color=qqqqzz] (7.02,2.38)-- (2.46,2.38);
+             \draw [dash pattern=on 3pt off 3pt,color=qqqqzz] (2.46,2.38)-- (2.46,8.6);
+        \end{tikzpicture}
+        \\
+        &a)~ \text{Измеримый прямоугольник}
+        &b)~ \text{Открытый прямоугольник}
+    \end{align*}
+    Очевидно, что открытый прямоугольник, как декартово произведение промежутков, является частным
+    случаем измеримого прямоугольника, а потому справедливо включение
+    $\mathcal{A} \subset \sigma\left( \left\{ B_1 \times B_2 \colon B_i \in \mathcal{B}(\RR) \right\} \right)$. Покажем теперь
+    включение в другую сторону:
+
+    Достаточно доказать, что каждый измеримый прямоугольник $B_1 \times B_2 \in \mathcal{A}$. В этом
+    случае вместе с ними, очевидно, там будет лежать и наименьшая порождаемая ими $\sigma$-алгебра.
+    Пусть $I$ --- промежуток, $B \in \mathcal{B}(\RR)$. Докажем, что $B \times I \in \mathcal{A}$.
+    Рассмотрим следующий набор подмножеств $\RR$:
+    $\mathcal{F} = \{ X \subseteq \RR \colon X \times I \in \mathcal{A}\}$.
+    \begin{itemize}
+        \item Всякий промежуток принадлежит $\mathcal{F}$ (Возьмём $X$ равный некоторому промежутку,
+        тогда $X \times I$ задаёт некоторый прямоугольник, и, следовательно, лежит в $\mathcal{A}$).
+        \item $\mathcal{F}$ --- $\sigma$-алгебра. Очевидно, что $\nothing \in \mathcal{F}$.
+        $\RR \times I$ так же задаёт некоторый прямоугольник $\implies \RR \in \mathcal{F}$.
+        Пусть теперь $X_1, X_2 \in \mathcal{F}$. Тогда $X_1 \times I$ и $X_2 \times I$ задают два
+        прямоугольника, и их пересечение, объединение и разность так же являются прямоугольником
+        (см. рисунок ниже), а значит, лежат в $\mathcal{F}$. (Кроме того верно, что
+        $(X_1 \times I) \cap (X_2 \times I) = (X_1 \cap X_2) \times I$. Для остальных операций аналогично).
+        Кроме того очеивдно, что если взять счётный набор $\{X\}_i \subseteq \mathcal{F}$, то
+        для каждого $i ~ X_i \times I$ будет задавать прямоугольник, и их счётное объединение и пересечение
+        также будет прямоугольником, а значит, будет лежать в $\mathcal{F}$.
+    \end{itemize}
+    \begin{align*}
+        \definecolor{qqqqcc}{rgb}{0,0,0.8}
+        \definecolor{qqwwtt}{rgb}{0,0.4,0.2}
+        \definecolor{qqwwqq}{rgb}{0,0.4,0}
+        \definecolor{qqqqff}{rgb}{0,0,1}
+        \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=22,y=22]
+            \draw[->,color=black] (-0.71,0) -- (10.97,0);
+            \foreach \x in {,1,2,3,4,5,6,7,8,9,10}
+            \draw[shift={(\x,0)},color=black] (0pt,-2pt);
+            \draw[->,color=black] (0,-0.56) -- (0,8.94);
+            \foreach \y in {,1,2,3,4,5,6,7,8}
+            \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt);
+            \clip(-0.71,-0.56) rectangle (10.97,8.94);
+            \fill[dash pattern=on 1pt off 1pt,pattern color=qqqqff,fill=qqqqff,pattern=north east lines] (1.68,1.68) -- (5,1.68) -- (5,3.72) -- (1.68,3.72) -- cycle;
+            \fill[dash pattern=on 1pt off 1pt,pattern color=qqwwtt,fill=qqwwtt,pattern=north west lines] (3.78,1.68) -- (3.78,3.72) -- (9,3.72) -- (9,1.68) -- cycle;
+            \draw [line width=2.8pt] (0,1.68)-- (0,3.72);
+            \draw [line width=1.6pt,color=qqqqff] (1.68,0)-- (5,0);
+            \draw [line width=1.6pt,color=qqwwqq] (3.78,0)-- (9,0);
+            \draw [dash pattern=on 1pt off 1pt,color=qqqqff] (1.68,1.68)-- (5,1.68);
+            \draw [dash pattern=on 1pt off 1pt,color=qqqqff] (5,1.68)-- (5,3.72);
+            \draw [dash pattern=on 1pt off 1pt,color=qqqqff] (5,3.72)-- (1.68,3.72);
+            \draw [dash pattern=on 1pt off 1pt,color=qqqqff] (1.68,3.72)-- (1.68,1.68);
+            \draw [dash pattern=on 1pt off 1pt,color=qqwwtt] (3.78,1.68)-- (3.78,3.72);
+            \draw [dash pattern=on 1pt off 1pt,color=qqwwtt] (3.78,3.72)-- (9,3.72);
+            \draw [dash pattern=on 1pt off 1pt,color=qqwwtt] (9,3.72)-- (9,1.68);
+            \draw [dash pattern=on 1pt off 1pt,color=qqwwtt] (9,1.68)-- (3.78,1.68);
+            \draw (3.24,4.43) node[anchor=north west] {$(X_1 \cap X_2) \times I$};
+            \draw [color=qqqqcc](2.65,1.6) node[anchor=north west] {\mathbf{$ X_1 \times I $}};
+            \draw [color=qqwwqq](6,1.6) node[anchor=north west] {\mathbf{$X_2 \times I$}};
+            \draw (-0.63,3) node[anchor=north west] {\mathbf{$ I $}};
+            \draw [color=qqqqff](2.95,0) node[anchor=north west] {\mathbf{$ X_1 $}};
+            \draw [color=qqwwqq](5.83,-0.03) node[anchor=north west] {\mathbf{$ X_2 $}};
+            \draw [color=qqqqcc](4.74,0.38) node[anchor=north west] {\mathbf{$ ) $}};
+            \draw [color=qqqqcc](1.44,0.38) node[anchor=north west] {\mathbf{$ ( $}};
+            \draw [color=qqwwqq](3.54,0.38) node[anchor=north west] {\mathbf{$ ( $}};
+            \draw [color=qqwwqq](8.74,0.38) node[anchor=north west] {\mathbf{$ ) $}};
+        \end{tikzpicture}
+    \end{align*}
+    Отсюда следует, что $\mathcal{B}(\RR) \subset \mathcal{F}$. Рассмотрим теперь следующий набор подмножеств
+    в $\RR$:
+    $\widetilde{\mathcal{F}} = \{X \subseteq \RR \colon B \times X \in \mathcal{A}$\}.
+    \begin{enumerate}
+        \item $\widetilde{\mathcal{F}}$ содержит все промежутки. Действительно, положим $X = I$ --- некоторому
+        промежутку. Тогда необходимо доказать, что $B \times I \in A$. Но известно, что
+        $\mathcal{B}(\RR) \subset \mathcal{F}$, а значит $B \times I \in A ~ \forall B \in \mathcal{B}(\RR)$.
+        \item $\widetilde{\mathcal{F}}$ --- $\sigma$-алгебра. Это вобщем-то очевидно, т.к. все действия, которые
+        нужно проверить, мы будем делать со второй компонентой, а для неё уже всё доказано.
+    \end{enumerate}
+    Отсюда следует, что $\mathcal{B}(\RR) \subset \widetilde{\mathcal{F}}$. Таким образом мы доказали
+    требуемое, а именно, что каждый измеримый прямоугольник $B_1 \times B_2$ лежит в $\mathcal{A}$, а
+    значит, $\mathcal{A} \supset \sigma\left( \left\{ B_1 \times B_2 \colon B_i \in \mathcal{B}(\RR) \right\} \right)$.
+
+    Показали включение в обе стороны, а значит
+    \[
+        \mathcal{B}(\RR^2) = \sigma(\Box) = \mathcal{A} =
+        \sigma\left( \left\{ B_1 \times B_2 \colon B_i \in \mathcal{B}(\RR) \right\} \right)
+        = \mathcal{B}(\RR) \otimes \mathcal{B}(\RR)
+    \]
+\end{problem}
+\begin{exercise}
+    Вернёмся к первому пункту предыдущей задачи: известно, что в $U$ содержится континуум точек.
+    При этом для каждой точки мы вписываем прямоугольник открытый шар этой точки. Получается,
+    что прямоугольников будет столько же, сколько точек. Почему же мы тогда утверждаем,
+    что прямоугольников будет не более чем счётно?
+\end{exercise}
