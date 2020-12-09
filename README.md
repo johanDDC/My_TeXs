@@ -24,7 +24,7 @@
 Архив `packages.tgz` содержит мои tex-пакеты, необходимые для успешной 
 компиляции исходников с моим хедером. На платформе Ubuntu достаточно 
 распаковать содержимое архива в `/home/user/texmf/tex/latex`.\
-(`packages.tgz обновлён 01.12.20`)
+(`packages.tgz обновлён 09.12.20`)
 
 Файл [`header.sty`](https://github.com/johanDDC/My_TeXs/tree/master/src/header.sty)
 содержит мои настройки, и сделан на основе аналогичного файла
