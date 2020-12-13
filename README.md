@@ -12,7 +12,7 @@
 
 # Материалы
 
-- [Конспект лекций по теории веростностей](https://raw.githubusercontent.com/johanDDC/My_TeXs/5ae28814085a75d92f9b74f194a35e3d3ce8ec2e/pdf/TerverLectures/lectures.pdf)
+- [Конспект лекций по теории веростностей](https://raw.githubusercontent.com/johanDDC/My_TeXs/68c937d0572711f25a3c720e362ff352609247c9/pdf/TerverLectures/lectures.pdf)
 - [Конспект по мере и интегралу Лебега](https://raw.githubusercontent.com/johanDDC/My_TeXs/5981fbe92fbd8dfae37ea2c29fbf204a942d0d09/pdf/Lebeg/Lebeg.pdf)
 
 # Про контрибьюторство
