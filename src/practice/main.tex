@@ -1,0 +1,187 @@
+\documentclass[a4paper, 12pt]{article}
+
+%\usepackage[default]{./fonts/droidserif}
+%\usepackage[defaultsans]{./fonts/droidsans}
+\usepackage{../header}
+\usepackage{tensor_env}
+
+\usepackage{relsize}
+\usepackage{systeme}
+
+\geometry{a4paper,top=2cm,bottom=2cm,left=1cm,right=1cm}
+
+\usepackage{titlepage}
+\bibliographystyle{plain}
+
+% Здесь задаем параметры титульной страницы
+\setTitle{Реализация методов римановой оптимизации на многообразии тензорных поездов}
+\setGroup{195}
+%сюда можно воткнуть картинку подписи
+\setStudentSgn{
+%    \includegraphics[scale=0.1]{./sign.pdf}
+}
+\setStudent{И.Д. Пешехонов}
+\setStudentDate{29.05.2021}
+\setAdvisor{Рахуба Максим Владимирович}
+\setAdvisorTitle{Доцент департамента больших данных и информационного поиска}
+\setAdvisorAffiliation{Факультет компьютерных наук}
+\setAdvisorDate{29.05.2021}
+\setGrade{}
+%сюда можно воткнуть картинку подписи
+\setAdvisorSgn{
+%    \includegraphics[scale=0.35]{./dad_sign.png}
+}
+\setYear{2021}
+
+\title{Основы тензорноого анализа.}
+\author{Пешехонов Иван. БПМИ195}
+
+\begin{document}
+    \maketitle
+%    \makeTitlePage
+    \pagestyle{empty}
+    \tableofcontents
+    \newpage
+    \pagestyle{fancy}
+
+
+    \section{Основные термины и обозначения}
+    \begin{definition}
+        \textit{$d$-мерным тензором} будем называть массив, каждый элемент которого имеет $d$ индексов. Обозначать тензоры c элементами из множества $\RR$
+        будем следующим образом:
+        \[
+            \mbf{T} \in \RR^{n_1 \times \cdots \times n_d}
+        \]
+        Где число $d \in \NN$ называется \textit{порядком} тензора, а числа $n_i \in \NN \A i = 1,\ldots, d$ называются \it{модами}.
+    \end{definition}\
+    \begin{example}
+        Тензоры порядка $1, 2$ и $3$ соответственно:
+        \begin{align*}
+            &\begin{pmatrix}
+                 1\\2\\3\\4
+            \end{pmatrix}
+            &&\begin{pmatrix}
+                  1 & 0 & 0 & 1\\
+                  1 & 1 & 1 & 0\\
+                  0 & 1 & 1 & 1\\
+                  0 & 1 & 0 & 0
+            \end{pmatrix}
+            &&
+            \left[
+            \begin{pmatrix}
+                1 & 0 & 1\\
+                1 & 1 & 1\\
+            \end{pmatrix},
+            \begin{pmatrix}
+                1 & 2 & 2\\
+                0 & 3 & 1\\
+            \end{pmatrix}
+            \right]
+        \end{align*}
+    \end{example}
+    Множество тензоров заданного порядка $d$ с набором мод $n_1, \ldots, n_d$ будем обозначать $\RR^N$, где $N = (n_1, \ldots, n_d) \in \NN^d$.
+    К элементу тензора, стоящему на позиции $j_1, \ldots, j_d$, будем обращаться следующим образом: $\mbf{T}_{j_1, \ldots, j_d} \in \RR$.
+    \begin{comment}
+        Ясно, что хранение тензора в таком виде требует $\O{\max_{i = 1,\ldots, d} n_i^d}$ памяти. Число элементов тензора растёт экспоненциально
+        с ростом порядка, что может быть большой проблемой, т.к. как мы увидим дельше, различные операции над тензорами могут приводить к изменению порядка.
+    \end{comment}
+
+    Пусть есть два индексных множества $N = (n_1, \ldots, n_d) \in \NN^d, M = (m_1, \ldots, m_d) \in \NN^d$. Определим множество $\RR^{M \times N}$:
+    \[
+        \RR^{M \times N} = \RR^{m_1 \times n_1 \times m_2 \times n_2 \times \ldots \times m_d \times n_d}
+    \]
+    Далее нам понадобится следующий факт: каждый тензор $\mbf{T} \in \RR^N, N = (n_1, \ldots, n_d) \in \NN^d$ можно ассоциировать с тензором
+    $\overline{\mbf{T}} \in \RR^{N \times \mathtt{1}}$, $\mathtt{1} = (1, \ldots, 1) \in \NN^d$.
+    \begin{example}
+        Пусть $N = (3, 2, 2)$, и соответственно
+        \[
+            \mbf{T} = \left[
+            \begin{pmatrix}
+                1 & 0\\
+                0 & 0\\
+                1 & 1\\
+            \end{pmatrix},
+            \begin{pmatrix}
+                2 & 2\\
+                1 & 2\\
+                2 & 3\\
+            \end{pmatrix}\right]
+            \in \RR^N
+        \]
+        Построим $\overline{\mbf{T}}\in \RR^{N \times \mathtt{1}} = \RR^{3 \times 1 \times 2 \times 1 \times 2 \times 1}$:
+%        \[
+%            \overline{\mbf{T}} =
+%            \left[
+%            \left[
+%            \left[
+%            \begin{pmatrix}
+%                1\\0\\1
+%            \end{pmatrix},
+%            \begin{pmatrix}
+%                0\\0\\1
+%            \end{pmatrix}
+%            \right],
+%            \left[
+%            \begin{pmatrix}
+%                2\\1\\2
+%            \end{pmatrix},
+%            \begin{pmatrix}
+%                2\\2\\3
+%            \end{pmatrix}
+%            \right]
+%            \right]
+%            \right]
+%        \]
+        \[
+            \overline{\mbf{T}} =
+            \left\{
+                \left[
+                    \left[
+                        \left[
+                            \begin{pmatrix}
+                                1\\0\\1
+                            \end{pmatrix}
+                            \right],
+                        \left[
+                            \begin{pmatrix}
+                                0\\0\\1
+                            \end{pmatrix}
+                            \right]
+                        \right],
+                    \left[
+                        \left[
+                            \begin{pmatrix}
+                                2\\1\\2
+                            \end{pmatrix}
+                            \right],
+                        \left[
+                            \begin{pmatrix}
+                                2\\2\\3
+                            \end{pmatrix}
+                            \right]
+                        \right]
+                    \right]
+                \right\}
+        \]
+    \end{example}
+    \section{Операции над тензорами}
+    \subsection{Сложение и умножение на скаляр}
+    Пусть есть индексное множество $N = (n_1, \ldots, n_d)$, и есть два тензора $\mbf{T}, \mbf{U} \in \RR^N$.
+    \begin{definition}
+        \it{Суммой тензоров $\mbf{T}, \mbf{U}$} называется тензор $\mbf{T} + \mbf{U} \in \RR^N$, задаваемый правилом
+        \[
+            (\mbf{T} + \mbf{U})_{j_1, \ldots, j_d} = \mbf{T}_{j_1, \ldots, j_d} + \mbf{U}_{j_1, \ldots, j_d}
+        \]
+    \end{definition}
+    \begin{definition}
+        \it{Произведением тензора $\mbf{T}$ на скаляр $\lambda$} называется тензор $\lambda \cdot \mbf{T} \in \RR^N$, задаваемый правилом
+        \[
+            (\lambda \cdot \mbf{T}_{j_1, \ldots, j_d}) = \lambda \cdot \mbf{T}_{j_1, \ldots, j_d}
+        \]
+    \end{definition}
+    \begin{comment}
+        Несложно показать, что множество $\RR^N$ с такими опреациями сложения и умножения является векторным пространством над полем $\RR$.
+    \end{comment}
+    \subsection{Тензорная свёртка}
+    
+\end{document}

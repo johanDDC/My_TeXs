@@ -1,4 +1,5 @@
 \section{Сходимость случайных величин.}
+
 \subsection{Закон больших чисел. (Обобщённый вариант)}
 Пусть $X$ --- некоторая случайная величина и $k \in \NN$.
 \begin{definition}
@@ -13,7 +14,8 @@
         \mu_k = \EE[(X - \EE(X))^2]
     \]
 \end{definition}
-\begin{proposal}(Неправенство Чебышева).\\
+\begin{proposal}(Неправенство Чебышева)
+    .\\
 
     Пусть у неотрицательной случайной величины $X$ определено математическое ожидание. Тогда $\forall\, t > 0$ выполнено
     \[
@@ -25,3 +27,752 @@
         P(|X - \EE(X)| \geq \epsilon) \leq \frac{\DD(X)}{\epsilon^2}
     \]
 \end{proposal}
+\begin{corollary} (Закон больших чисел в слабой форме.)
+
+    Пусть $X_n$ --- последовательность таких независимых случайных величин, что $\EE(X_n^2) \leq \infty$. Обозначим
+    $\EE(X_n) = a_n$, $\DD(X_n) = \sigma_n^2$. Если
+    \[
+        \lim\limits_{n \to \infty} \frac{\sigma_1^2 + \ldots + \sigma_n^2}{n^2} = 0
+    \]
+    то для всякого положительного $\epsilon$ выполнено
+    \[
+        \lim\limits_{n \to \infty} P\left( \left| \frac{X_1 + \ldots + X_n}{n} - \frac{a_1 + \ldots + a_n}{n} \right| \geq \epsilon \right) = 0
+    \]
+\end{corollary}
+\begin{proof}
+    Из неравенства Чебышева следует
+    \[
+        P\left( \left| \frac{X_1 + \ldots + X_n}{n} - \frac{a_1 + \ldots + a_n}{n} \right| \geq \epsilon \right) \leq
+        \frac{\sigma_1^2 + \ldots + \sigma_n^2}{n^2\epsilon^2}
+    \]
+    Неравенство выполнено в силу независимости случайных величин, откуда следует, что дисперсию комбинации мы можем найти
+    как комбинацию дисперсий. Устремляя $n \to \infty$ получаем требуемое.
+\end{proof}
+\begin{comment}
+    Если случайные величины распределены одинаково ($\forall\, n \EE(X_n) = a, \DD(X_n) = \sigma^2$), то:
+    \[
+        \lim\limits_{n \to \infty}\frac{\sigma_1^2 + \ldots + \sigma_n^2}{n^2} = \lim\limits_{n \to \infty}\frac{\sigma^2}{n} = 0
+    \]
+    и закон переписывается в следующем виде:
+    \[
+        P\left( \left| \frac{X_1 + \ldots + X_n}{n} - a \right| \geq \epsilon \right) \leq \frac{\sigma^2}{n\epsilon^2} \to 0
+    \]
+\end{comment}
+\begin{theorem}[Усиленный закон больших чисел Колмогорова.]
+    Пусть $X_n$ --- последовательность независимых, одинаково
+    распределённых случайных величин, имеющих матожидание. Пусть $\EE(X_n) = a$. Тогда
+    \[
+        P\left(
+        \lim\limits_{n \to \infty} \frac{X_1 + \ldots + X_n}{n} = a
+        \right) = 1
+    \]
+\end{theorem}
+
+\subsection{Cходимость по вероятности и почти наверное.}
+\begin{definition}
+    Говорят, что последовательность случайных величин $X_n$ \it{сходится к $X$ почти наверное}, если
+    \[
+        P(\lim\limits_{n \to \infty} X_n = X) = 1
+    \]
+    Обозначение: $X_n \toPN X$.
+\end{definition}
+\begin{definition}
+    Говорят, что последовательность случайных величин $X_n$ \it{сходится к $X$ по вероятности}, если
+    для всякого положительного $\epsilon$ выполнено
+    \[
+        \lim\limits_{n \to \infty} P(|X_n - X| \geq \epsilon) = 0
+    \]
+    Обозначение: $X_n \toP X$.
+\end{definition}
+\begin{theorem} [Обоснование усиленности.]
+    Если $X_n \toPN X$, то $X_n \toP X$.
+\end{theorem}
+\begin{proof}
+    Хотим доказать, что $P(|X_n - X| \geq \epsilon) \to 0$. Докажем, что $P(|X_n - X| < \epsilon) \to 1$. Заметим, что
+    для произвольного $\epsilon > 0$ $\exists\, N \colon \forall\, n \geq N |X_n - X| < \epsilon$. Переписав это на
+    языке теоретико-множественных операций получаем $\bigcup_{N}\bigcap_{n \geq N}\{ |X_n - X| < \epsilon \}$. Ясно, что
+    сюда вложено событие $\{\lim X_n = X\}$, вероятность которого 1 по условию. Тогда
+    \[
+        P\left( \bigcup_{N}\bigcap_{n \geq N}\{ |X_n - X| < \epsilon \} \right) = 1
+    \]
+    При этом ясно, что $\bigcap_{n \geq N}\{ |X_n - X| < \epsilon \} \subset \bigcap_{n \geq N + 1}\{ |X_n - X| < \epsilon \}$
+    (т.к. в первом случае мы пересекаем большее число множеств). По непрерывности вероятностной меры:
+    \[
+        P\left( \bigcup_{N} \bigcap_{n \geq N}\{ |X_n - X| < \epsilon \} \right) = \lim\limits_{N \to \infty} P\left( \bigcap_{n \geq N}\{ |X_n - X| < \epsilon \} \right)
+    \]
+    Последний предел равен $1$ т.к. содержит событие вероятности $1$. Т.к. вероятность пересечения меньше, чем вероятность
+    одного события, то
+    \[
+        P\left( \bigcap_{n \geq N}\{ |X_n - X| < \epsilon \} \right) \leq P\left(|X_n - X| < \epsilon \right) \to 1
+    \]
+\end{proof}
+
+\subsection{Сходимость по распределению.}
+\begin{definition}
+    Говорят, что последовательность случайных величин $X_n$ сходится к случайной величине $X$ \it{по распределению},
+    если $\lim\limits_{n \to \infty} F_{X_n}(x) = F_X(x)$ в каждой точке $x$, в которой непрерывна функция $F_X$.\\
+    Обозначение: $X_n \toD X$.
+\end{definition}
+\begin{lemma}
+    Пусть $X_n$ --- последовательность случайных величин, и пусть $\mathcal{F} = \{f\}, \mathcal{G} = \{g\}$ две
+    системы функций на $\RR$, причём известно
+    \begin{enumerate}
+        \item $\forall\, f \in \mathcal{F} \EE(f(X_n)) \to \EE(f(X))$;\\
+        \item $\forall\, g \in \mathcal{G} \forall\, \epsilon > 0 \exists\, f_{\epsilon} \in \mathcal{F} \colon$
+        \begin{align*}
+            &\EE(|g(X_n) - f_{\epsilon}(X_n)|) < \epsilon
+            &\EE(|g(X) - f_{\epsilon}(X)|) < \epsilon
+        \end{align*}
+    \end{enumerate}
+    Тогда $\forall\, g \in \mathcal{G} \EE(g(X_n) \to \EE(g(X)))$.
+\end{lemma}
+\begin{proof}
+    Для фиксированного $g$ найдём $\epsilon$ и $f_{\epsilon}$, которые её приближают. Оценим теперь
+    $|\EE(g(X_n)) - \EE(g(X))|$:
+    \begin{align*}
+        |\EE(g(X_n)) - \EE(g(X))| &= |\EE(g(X_n)) - \EE(f_{\epsilon}(X_n)) + \EE(f_{\epsilon}(X_n))
+        - \EE(f_{\epsilon}(X)) + \EE(f_{\epsilon}(X)) - \EE(g(X))| \leq\\
+        &\leq \EE(|g(X_n) - f_{\epsilon}(X_n)|) + |\EE(f_{\epsilon}(X_n)) - \EE(f_{\epsilon}(X))| +
+        \EE(|f_{\epsilon}(X) - g(X)|)
+    \end{align*}
+    Тут мы воспользовались тем, что модуль матожидания оценивается матожиданием модуля. Три последних слагаемых
+    не превосходят $\epsilon$.
+\end{proof}
+\begin{theorem}[Эквивалентное описание сходимости по распределению.]
+    $X_n \toD X \iff \EE(g(X_n)) \to \EE(g(X))$, где $g$ --- произвольная непрерывная ограниченная функция.
+\end{theorem}
+\begin{proof}
+    Доказываем достаточность $(\Leftarrow)$:
+
+    Заметим, что $F_X(t) = P(X \leq t) = \EE(I_{(-\infty, t]}(X))$. Для всякого $\delta > 0$ определим
+    непрерывные функции
+    \begin{align*}
+        &g_{\delta}(t) =
+        \begin{cases}
+            1 & t < x - \delta\\
+            \frac{x - t}{\delta} & x - \delta \leq t < x\\
+            0 & t > x
+        \end{cases}
+        &h_{\delta}(t) =
+        \begin{cases}
+            1 & t < x\\
+            \frac{x + \delta - t}{\delta} & x \leq t < x + \delta\\
+            0 & t > x + \delta
+        \end{cases}
+    \end{align*}
+    Ясно, что
+    \[
+        I_{(-\infty, x - \delta]}(t) \leq g_{\delta}(t) \leq
+        I_{(-\infty, x]}(t) \leq h_{\delta}(t) \leq
+        I_{(-\infty, x + \delta]}(t)
+    \]
+    Воспользуемся свойствами матожидания:
+    \begin{align*}
+        &\EE\left( I_{(-\infty, x - \delta]}(t) \right) \leq \EE\left( g_{\delta}(t) \right)\leq
+        \EE\left(I_{(-\infty, x]}(t) \leq h_{\delta}(t) \right)\leq
+        \EE\left(I_{(-\infty, x + \delta]}(t)\right)\\
+        &F_{X_n}(x - \delta) \leq \EE\left( g_{\delta}(X_n) \right)\leq
+        F_{X_n}(x) \leq h_{\delta}(X_n) \right)\leq
+        F_{X_n}(x + \delta)\\
+    \end{align*}
+    Воспользовавшись тем, что $\EE(g(X_n)) \to \EE(g(X))$ и устремив $n \to \infty$ получаем
+    \begin{align*}
+        F_{X}(x - \delta) \leq \EE\left( g_{\delta}(X_n) \right)\leq
+        \underline{\lim} F_{X_n}(x) \leq \overline{\lim} F_{X_n}(x)
+        \leq h_{\delta}(X_n) \right)\leq
+        F_{X}(x + \delta)\\
+    \end{align*}
+    Теперь устремляя $\delta \to 0$ (можно сделать, т.к. по определению сходимости по распределению $x$ --- точка
+    непрерывности) получаем
+    \[
+        F_{X}(x - \delta) \leq \underline{\lim} F_{X_n}(x) \leq \overline{\lim} F_{X_n}(x)
+        \leq F_{X}(x + \delta) \iff \lim F_{X_n}(x) = F_{X}(x)
+    \]
+    Докажем теперь необходимость $(\Rightarrow)$:
+    Пусть теперь известно, что $F_{X_n}(x) \to F_X(x)$ в любой точке непрерывности $F_X$. В терминах индикаторов:
+    $\EE(I_{(-\infty, x]}(X_n) \to \EE(I_{(-\infty, x]}(X)$. Положим $f_x(t) = I_{(-\infty, x]}(t)$.
+    Тогда $f_b(t) - f_a(t) = I_{(a, b]}(t)$. По линейности предела:
+    \[
+        \EE(f_b(X_n) - f_a(X_n)) \to \EE(f_b(X) - f_a(X))
+    \]
+    Положим теперь $f(t) = \sum\limits_{j = 1}^N I_{(a_j, b_j)}(t)$, $a_j, b_j$ --- точки непрерывности $F_x$.
+    Тогда $\EE(f(X_n)) \to \EE(f(X))$. Пусть $\mathcal{F}$ --- класс функций вида $f(t)$, а $\mathcal{G}$ ---
+    класс непрерывных ограниченных функций.\\
+    Ограничим функцию распределения на отрезок: $\exists\, A \colon F_X(-A) < \epsilon, 1 - F_X(A) < \epsilon$
+    (т.е. при достаточно большом $A$ $F_X$ будет сколь угодно мала на ``минус бесконечности'', и
+    неотличима от 1 на ``плюс бесконечности''). Возьмём такое $A$, которое является точкой непрерывности $F_X$.
+    Известно, что $F_{X_n}(-A) \to F_X(-A), F_{X_n}(A) \to F_X(A)$, а значит, с какого-то момента
+    $F_{X_n}(-A) < \epsilon, 1 - F_{X_n}(A) < \epsilon$. Увеличив $A$ можно считать, что оценки выполнены
+    $\forall\,n$.\\
+    Оценим $\EE(|g(X_n)I_{[-A, A]} - g(X_n)|)$:
+    \begin{align*}
+        \EE(|g(X_n)I_{[-A, A]} - g(X_n)|) &=
+        \EE(|g(X_n)|I_{(-\infty, -A) \cup (A, \infty)})
+        \leq \sup |g| \EE(I_{(-\infty, -A) \cup (A, \infty)}) =
+        \sup |g|(F_{X_n}(-A) + 1 - F_{X_n}(A)) =\\
+        &=\sup |g| \cdot 2 \epsilon
+    \end{align*}
+    Т.к. $g$ непрерывна, то на отрезке $[-A, A]$ $g$ равномерно непрерывна, а значит, её можно равномерно приблизить
+    функцией $f_{\epsilon}$: $|g(x) - f_{\epsilon}(x)| \leq \epsilon\, \forall\, x \in [-A, A]$. Без ограничения общности считаем,
+    что точки разрыва $f_{\epsilon}$ будут точками непрерывности функции $F_X$, и $f_{\epsilon} \in \mathcal{F}$.
+    Пусть $f_{\epsilon}(x) = 0$ для всякой, не попадающей в отрезок точки. Тогда
+    \begin{align*}
+        &\EE(|I_{[-A, A]}(X_n)g(X_n) - f_{\epsilon}(X_n)|) \leq \epsilon
+        &\EE(|I_{[-A, A]}(X)g(X) - f_{\epsilon}(X)|) \leq \epsilon
+    \end{align*}
+    Таким образом $\EE(|g(X_n) - f_{\epsilon}(X_n)|) \leq \sup |g| \cdot 4\epsilon + \epsilon$, и
+    теперь всё следует из леммы.
+\end{proof}
+\begin{proposal}(Абсолютная непрерывность матожидания.)
+
+    Пусть $X \geq 0$ почти наверное, и существует матожидание $\EE(X)$. Тогда для каждого $\epsilon > 0$
+    найдётся такое $\delta > 0$, что для произвольного события $A$, такого что $P(A) \leq \delta$ выполнено
+    $\EE(XI_A) \leq \epsilon$.
+\end{proposal}
+\begin{proof}
+    Доказательство в \href{https://drive.google.com/file/d/14HYI1-ErQAa9qXxjAdJuuhgJwD1cMheF/view}{лекции}.
+\end{proof}
+\begin{theorem}{Лебега о мажорируемой сходимости.}
+    Пусть $X_n \toP X$ (или $X_n \toPN X$) и пусть существует
+    случайная величина $Y$ с конечным матожиданием, для которой $|X| \leq Y$ почти наверное и $|X_n| \leq Y $
+    почти наверное $\forall\, n$. Тогда $\EE(X_n) \to \EE(X)$ при $n \to \infty$.
+\end{theorem}
+\begin{proof}
+    Оценим $|\EE(X_n) - \EE(X)|$:
+    \begin{align*}
+        &|\EE(X_n) - \EE(X)| \leq \EE(|X_n - X|) =
+        \EE(I_{|X_n - X| \geq \epsilon}(|X_n - X|)) +
+        \EE(I_{|X_n - X| \leq \epsilon}(|X_n - X|))
+    \end{align*}
+    Последнее слагаемое уже не больше $\epsilon$. Т.к. $|X| \leq Y, |X_n| \leq Y$, то $|X_n - X| \leq 2Y$.
+    Т.к. $X_n \toP X$, то, по определению $P(|X_n - X| > \epsilon) \to 0$. По абсолютной непрерывности матожидания:
+    $\exists\, \delta \colon P(|X_n - X| > \epsilon) < \delta \implies \EE(I_{|X_n - X| > \epsilon}(Y)) < \epsilon$.
+    Собираем и получаем требуемое:
+    \[
+        \EE(I_{|X_n - X| \geq \epsilon}(|X_n - X|)) +
+        \EE(I_{|X_n - X| \leq \epsilon}(|X_n - X|))
+        \leq 2\EE(I_{|X_n - X| > \epsilon}(Y)) + \epsilon \leq 3\epsilon
+    \]
+    (с какого-то момента.)
+\end{proof}
+\begin{proposal}
+    Пусть $X_n \toP X$ и $g \colon \RR \to \RR$ --- непрерывная. Тогда $g(X_n) \toP g(X)$.
+\end{proposal}
+\begin{proof}
+    Пусть есть фиксированное $R \in \RR > 0$. Известно, что непрерывная функция на отрезке равномерно непрерывна.
+    Т.е. $g$ на $[-R, R]$ равномерно непрерывна. Т.е. $\forall\, \epsilon \exists\, \delta |x - y| < \delta \implies
+    |g(x) - g(y)| < \epsilon$, где $x, y \in [-R, R]$.
+
+    Рассмотрим интересующее нас событие: $\{|g(X_n) - g(X)| \geq \epsilon\}$. Ясно, что возможны следующие варианты:
+    $X, X_n$ попали в отрезок, либо в отрезок попал кто-то из них:
+    \begin{align*}
+        \{|g(X_n) - g(X)| \geq \epsilon, X_n, X \in [-R, R]\} \cup
+        \{|g(X_n) - g(X)| \geq \epsilon, X_n \notin [-R, R]\} \cup
+        \{|g(X_n) - g(X)| \geq \epsilon, X \notin [-R, R]\}
+    \end{align*}
+    Интересующее нас событие вложено в это объединение. Тогда
+    \begin{align*}
+        P(\{|g(X_n) - g(X)| \geq \epsilon\}) &\leq P(\{|g(X_n) - g(X)| \geq \epsilon, X_n, X \in [-R, R]\}) +
+        P(\{|g(X_n) - g(X)| \geq \epsilon, X_n \notin [-R, R]\}) +\\
+        &+ P(\{|g(X_n) - g(X)| \geq \epsilon, X \notin [-R, R]\})
+    \end{align*}
+    Выкинув из последних двух слагаемых первое условие мы можем только увеличить множетво, и неравенство не нарушится:
+    \begin{align*}
+        P(\{|g(X_n) - g(X)| \geq \epsilon\}) \leq P(\{|g(X_n) - g(X)| \geq \epsilon, X_n, X \in [-R, R]\}) +
+        P(|X_n| > R) +
+        P(|X| > R)
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    Пусть $X_n \toP X$, тогда $X_n \toD X$.
+\end{corollary}
+\begin{proof}
+    Пусть $g$ --- произвольная непрерывная ограниченная функция. Т.к. $g$ --- ограниченная, то $\exists\, M \colon
+    \forall\, x |g(x)| \leq M$. Т.к. $X_n \toP X$, то $g(X_n) \toP g(X)$. Применяя теорему лебега для случайных величин
+    $g(X_n), g(X)$ и $Y = M$ получаем сходимость $\EE(g(X_n)) \to \EE(g(X))$.
+\end{proof}
+
+\subsection{Характеристические функции: определение и свойства.}
+\begin{definition}
+    \it{Характеристической функцией} случайной величины $X$ называется функция
+    \[
+        \phi_X(t) = \EE(e^{itX}) = \EE(\cos(tX)) + i\EE(\sin(tX))
+    \]
+\end{definition}
+\begin{proposal} (Свойства характеристических функций.)
+
+    \begin{enumerate}
+        \item $\phi_X(0) = 1$, $|\phi_X(t)| \leq 1$;
+        \item $\phi_{aX + b}(t) = e^{itb}\phi_X(at)$;
+        \item Если $X_1, \ldots, X_n$ --- независимые случайные величины, и $S_n = \sum X_i$, то
+        \[
+            \phi_{S_n}(t) = \prod \phi_{X_i}(t)
+        \]
+    \end{enumerate}
+\end{proposal}
+\begin{proof}
+    1)
+    \[
+        |\phi_{X}(t)|^2 = (\EE(\cos(tX)))^2 + (\EE(\sin(tX)))^2 \overset{\text{К-Б}}{\leq}
+        \EE(\cos^2(tX)) + \EE(\sin^2(tX)) = 1
+    \]
+    2) Очев по определению.\\
+    3) Очев по определению и свойству матожидания для независимых случайных величин.
+\end{proof}
+\begin{example} (Вычисление харфункции нормальной случайной величины.)
+    \\
+    Смотреть в \href{https://drive.google.com/file/d/1OCZ4G-a-dQzfpOAB5l2s5o6PH81i0RhS/view}{лекции}.
+\end{example}
+\begin{proposal}
+    Пусть у случайной величины $X$ определён $k$-ый начальный момент. Тогда $\phi_X(t)$ имеет $k$-ую производную,
+    и $\phi^{(k)}(0) = i^k\EE(X^k)$.
+\end{proposal}
+\begin{proof}
+    По определени производной:
+    \[
+        \lim\limits_{h_n \to 0} \frac{\phi_X(t + h_n) - \phi_X(t)}{h_n} =
+        \lim\limits_{h_n \to 0} \frac{1}{h_n} \left( \EE(e^{i(t + h_n)X}) - \EE(e^{itX}) \right) =
+        \lim\limits_{h_n \to 0} \EE\left( \frac{e^{i(t + h_n)X} - e^{itX}}{h_n} \EE(e^{i(t + h_n)X})\right)
+    \]
+    Положим $g_n(x) = \frac{e^{i(t + h_n)X - e^{itX}}}{h_n}$. Тогда по определеню производной
+    \begin{align*}
+        \lim\limits_{n \to \infty} g_n(x) = (e^{itx})' = ixe^{itx}
+    \end{align*}
+    Оценим $|g_n(x)|$:
+    \begin{align*}
+        &|g_n(x)| = \left| \frac{e^{itx}(e^{ih_{n}x} - 1)}{h_n} \right| =
+        \left| \frac{e^{ih_{n}x} - 1}{h_n} \right| = |ixe^{i\xi x}| = |x|, \ \ \ \ \xi \in (0, h_n)
+    \end{align*}
+    Предпоследний переход следует из теоремы Лагранжа о промежуточной точке. Теперь имеем:\\
+    $|g_n(X)| \leq |X|, \EE(|X|) \leq \infty$;\\
+    $g_n(X) \toPN iXe^{itX}$;\\
+    По теореме Лебега о мажорируемой сходимости имеем $\EE(g_n(X)) \to \EE(iXe^{itX})$. Т.к.
+    $\lim \EE(g_n(X))$ это по определению производная хар функции, то
+    $\phi_X'(t) = i\EE(Xe^{itX})$, в частности $\phi_X'(0) = i\EE(X)$.
+\end{proof}
+\begin{theorem}
+    $X_n \toD X \iff \phi_{X_n}(t) \to \phi_X(t), \forall\, t \in \RR$.
+\end{theorem}
+\begin{proof}
+    $\Leftarrow\colon$\\
+    По определению $\phi_Y(t) = \EE(e^{itY})$. Известно, что $X_n \toD X \iff \EE(g(X_n)) \to \EE(g(X))$,
+    где $g$ --- непрерывная, ограниченная функция. Пусть $g(x) = e^{itx}$ --- непрерывная и ограниченная (т.к.
+    $\cos$ и $\sin$ --- непрерывные и ограниченные). Тогда очевидно, что $\phi_{X_n}(t) \to \phi_{X}(t)$.
+
+    $\Rightarrow\colon$\\
+    Будем считать, что $\EE(|X_n|)^2 \leq C \leq \infty, \EE(|X|)^2 \leq C \leq \infty$. Пусть известно, что
+    \[
+        \EE(\cos(tX_n)) + i\EE(\sin(tX_n)) \to \EE(\cos(tX)) + i\EE(\sin(tX))
+    \]
+    Тогда по линейности предела можно считать, что есть сходимость $\EE(f(X_n)) \to \EE(f(X))$ для каждой функции
+    $f$ следующего вида:
+    \[
+        f(x) = \frac{a_0}{2} + \sum\limits_{k = 1}^N \left( a_k\cos(t_kx) + b_k\sin(t_kx) \right)
+    \]
+    Пусть функции такого вида образуют класс $\mathcal{F}$. Известно, что если $\eta(x)$ --- непрерывная на $\RR$
+    и переодическая с периодом $2T$, то $\forall\, \epsilon > 0\, \exists\, a_0, a_1, \ldots, a_N, b_1, \ldots, b_N$
+    такие что $\sup_{x \in \RR}\left| \eta(x) - \frac{a_0}{2} + \sum\limits_{k = 1}^{N} \left( a_k\cos\frac{\pi k}{T}
+    + b_k\sin\frac{\pi k}{T}\right) \right| < \epsilon$.
+    По неравенству Чебышева $\forall\, A > 0$ выполнено
+    \begin{align*}
+        &P(|X_n| \geq A) \leq \frac{C}{A^2}\\
+        &P(|X| \geq A) \leq \frac{C}{A^2}\\
+    \end{align*}
+    Взяв достаточно большое $A$ можно добиться
+    \begin{align*}
+        &P(|X_n| \geq A) \leq \epsilon\\
+        &P(|X| \geq A) \leq \epsilon
+    \end{align*}
+    Пусть $g$ --- ограниченная и непрерывная функция, и $M = \sup |g|$. Пусть непрерывная $g_{\epsilon}$
+    совпадает с $g$ на $[-A, A]$, в точках $-A - 1, A + 1$ равна нулю, и продолжена на всё $\RR$ с периодом
+    $T = 2A + 2$. Оценим теперь $\EE(|g(X_n) - g_{\epsilon}(X_n))$:
+    \begin{align*}
+        \EE(|g(X_n) - g_{\epsilon}(X_n)|) =
+        \EE(I_{|X_n| \geq A}(|g(X_n) - g_{\epsilon}(X_n)|)) \leq 2M\epsilon
+    \end{align*}
+    Аналогично для $\EE(|g(X) - g_{\epsilon}(X)|)$. Т.к. всякую непрерывную периодичскую функцию можно равномерно
+    приблизить тригонометрическим многочленом (функцией из $\mathcal{F}$), то теперь сходимость по распределению
+    следует из стрёмной леммы.
+\end{proof}
+\begin{corollary}
+    Если у двух случайных величин совпадают хар функции, то у них так же совпадают распределения.
+\end{corollary}
+\begin{proof}
+    Пусть $\phi_X(t) = \phi_Y(t) \,\forall\, t$. Рассмотрим последовательность $X_n = X$. Т.к $\phi_{X_n}(t) = \phi_X(t)$,
+    и $\phi_X(t) = \phi_Y(t)$, то $\phi_{X_n}(t) \to \phi_X(t) \,\forall\, t \iff X_n \toD X$ по теореме.
+\end{proof}
+
+\subsection{Центральная предельная теорема.}
+\begin{theorem}[(Центральная предельная теорема.)]
+    Пусть $X_n$ --- последовательность независимых одинаково
+    распределённых случайных величин, причём $\EE(X_1) = a, \DD(X_1) = \sigma^2$. Тогда для всех $t$:
+    \[
+        \lim\limits_{n \to \infty} P\left( \frac{X_1 + \ldots + X_n - na}{\sqrt {n\sigma^2}} \leq t \right)
+        = \frac{1}{\sqrt {2\pi}}\int\limits_{-\infty}^{t} e^{-\frac{x^2}{2}}dx
+    \]
+    или, если $S_n = \sum X_i$, то $na = \EE(S_n), n\sigma^2 = \DD(S_n)$, и тогда
+    \[
+        \frac{S_n - \EE(S_n)}{\sqrt {\DD(S_n)}} \toD Z
+    \]
+    где $Z \sim \mathcal{N}(0, 1)$.
+\end{theorem}
+\begin{proof}
+    Положим $X_j' = X_j - a$. Тогда $\EE(X_j') = 0, \DD(X_j') = \DD(X_j) = \sigma^2$. Теперь требуется доказать, что
+    \[
+        \frac{X_1' + \ldots + X_n'}{\sqrt {n\sigma^2}} \toD Z
+    \]
+    Найдём харфункцию случайной величины:
+    \[
+        \phi_{\frac{X_1' + \ldots + X_n'}{\sqrt {n\sigma^2}}}(t) =
+        \phi_{\frac{X_1'}{\sqrt {n\sigma^1}} + \cdots + \frac{X_n'}{\sqrt {n\sigma^1}}}(t) =
+        \phi_{\frac{X_1'}{\sqrt {n\sigma^1}}} \cdot \cdots \cdot _{\frac{X_n'}{\sqrt {n\sigma^1}}}(t)=
+        \phi^n_{X'_1}\left( \frac{t}{\sigma\sqrt {n}} \right)
+    \]
+    Заметим, что $\phi(0) = 1, \phi'_{X_1'}(0) = i\EE(X_1') = 0, \phi''_{X_1'}(0) = -\EE(X_1'^2) = -\DD(X_1') = -\sigma^2$.
+    По формуле Тейлора:
+    \[
+        \phi_{X_1'}\left( \frac{t}{\sqrt {n\sigma^2}} \right) = \phi_{X_1'}(0) + \frac{1}{\sqrt {n\sigma^2}}
+        \phi_{X_1'}'\left( \frac{0}{\sqrt {n\sigma^2}} \right) + \frac{1}{2n\sigma^2}\phi_{X_1'}''(0)t^2 +
+        o\left( \frac{t^2}{n\sigma^2} \right) =
+        1 - \frac{1}{2n} + o\left( \frac{t^2}{n\sigma^2} \right)
+    \]
+    Теперь имеем
+    \begin{align*}
+        \phi^n_{X'_1}\left( \frac{t}{\sigma\sqrt {n}} \right) &=
+        \left( 1 - \frac{1}{2n} + o\left( \frac{t^2}{n\sigma^2} \right) \right)^n =
+        e^{n\ln\left( 1 - \frac{1}{2n} + o\left( \frac{t^2}{n\sigma^2} \right) \right)} =
+        e^{n\left(- \frac{t^2}{2n} + o\left( \frac{1}{n} \right) \right)} \to e^{-\frac{t^2}{2}}
+    \end{align*}
+    Т.к. нас интересует сходимость при фиксированных $t$ и $\sigma$, то их можно считать константами.
+    Остаётся заметить, что $e^{-\frac{t^2}{2}}$ --- функция распределения стандартной нормальной
+    случайной величины.
+\end{proof}
+
+\subsection{Теоремы о непрерывности.}
+\begin{proposal}
+    Если $X_n \toD X$, то для всякой непрерывной $g$ выполнено $g(X_n) \toD g(X)$.
+\end{proposal}
+\begin{proof}
+    Пусть $f$ --- произвольная непрерывная ограниченная функция. Тогда $X_n \toD X \iff \EE(f(X_n)) \to \EE(f(X))$.
+    Но функция $f \circ g$ также непрерывна и ограничена, значит выполнено $\EE((f \circ g)(X_n)) \to
+    \EE((f \circ g)(X))$. А отсюда выполнено $g(X_n) \toD g(X)$.
+\end{proof}
+\begin{lemma}
+    Пусть $X, Y, Z$ --- случайные величины. Тогда
+    \[
+        P(X + Z \leq t - \epsilon) - P(|Y- Z| > \epsilon) \leq
+        P(X + Y \leq t) \leq P(X + Z \leq t + \epsilon) + P(|Y- Z| > \epsilon)
+    \]
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        P(X + Y \leq t) = P(X + Y \leq t, |Y - Z| < \epsilon) + P(X + Y \leq t, |Y - Z| > \epsilon)
+        \leq P(X + Z - \epsilon \leq t) + P(|Y - Z| > \epsilon)
+    \end{align*}
+    С другой стороны заменим в оценке все $Y$ на $Z$:
+    \[
+        P(X + Z \leq t) \leq P(X + Y \leq t + \epsilon) + P(|Y- Z| > \epsilon)
+    \]
+    И переименуем переменную: $t + \epsilon$ назовём $t$, тогда старое $t$ станет $t - \epsilon$:
+    \[
+        P(X + Z \leq t - \epsilon) \leq P(X + Y \leq t) + P(|Y- Z| > \epsilon)
+        \iff P(X + Y \leq t) \geq P(X + Z \leq t - \epsilon) - P(|Y- Z| > \epsilon)
+    \]
+\end{proof}
+\begin{theorem}
+    Пусть $X_n \toD X, Y_n \toP C = const$. Тогда $X_n + Y_n \toD X + C$, $X_{n}Y_n \toD XC$
+\end{theorem}
+\begin{proof}
+    Пусть $\epsilon > 0$. Тогда по лемме
+    \[
+        F_{X_n}(t - C - \epsilon) - P(|X_n - C| > \epsilon) \leq P(X_n + Y_n \leq t) \leq F_{X_n}(t - C + \epsilon) + P(|X_n - C| > \epsilon)
+    \]
+    Если $t - C$ --- точка непрерывности функции $F_{X}$, то устремляя $n \to \infty, \epsilon \to 0$ получаем
+    \[
+        P(X_n + Y_n \leq t) \to F_{X}(t - C) = F_{C + X}(t)
+    \]
+    Остаётся заметить, что $t - C$ --- точка непрерывности для $F_X \iff t$ --- точка непрерывности для
+    $F_{C + X}$.
+
+    Пусть сначала $C = 0$, т.е. $Y_n \toP 0$. Докажем, что $X_n Y_n \toP 0$. Заметим что для произвольных положительных
+    $\epsilon, R$ верно включение
+    \[
+        \{|X_n|\cdot|Y_n| \geq \epsilon\} \subset \{|X_n| \geq R\} \cup \{|Y_n| \geq \frac{\epsilon}{R}\}
+    \]
+    Отсюда выполнено
+    \[
+        P(|X_n Y_n| \geq \epsilon) \leq P(|X_n| \geq R) + P(|X_n| \geq \frac{\epsilon}{R})
+    \]
+    Т.к. $P(|X_n| \geq R) = P(X_n \geq R) + P(X_n \geq -R)$, то выполнено
+    \[
+        P(|X_n Y_n| \geq \epsilon) \leq 1 - F_{X_n}(R) + F_{X_n}(-R) + P(|X_n| \geq \frac{\epsilon}{R})
+    \]
+    Устремляя $n \to \infty$, и $R \to \infty$ получаем $P(|X_n Y_n| \geq \epsilon) \to 0$.
+
+    Теперь если $C \neq 0$, то заметим, что $X_n Y_n = X_n(Y_n - C) + X_{n}C$. Т.к. $Y_n \toP C$, то
+    $Y_n - C \toD 0$ и $X_n(Y_n - C) \toP 0$. Заметим теперь, что $X_{n}C$ сходится по распределению к
+    $XC$, т.к. домножение на константу меняет функцию распределения конкретным образом. В итоге получаем,
+    что $0 + XC \toD XC$.
+\end{proof}
+
+\subsection{Примеры применения теорем о непрерывности.}
+\begin{example}(Выборочная дисперсия.)
+    \\
+    Пусть $X_n$ --- последовательность независимых, одинаково распределённых случайных величин. Пусть
+    $\EE(X_1) = a, \DD(X_1) = \sigma^2$. Пусть $\overline{X_n} = \frac{X_1 + \ldots + X_n}{n} \toP a$ (следует
+    из закона больших чисел). Выборочной дисперсией называется величина
+    \[
+        s^2_n = \frac{1}{n - 1}\sum_{j = 1}^{n}(X_j - \overline{X_n})^2
+    \]
+    Попробуем упростить выражение:
+    \begin{align*}
+        s^2_n &= \frac{1}{n - 1}\sum_{j = 1}^{n}(X_j - \overline{X_n})^2 =
+        \frac{n}{n - 1}\frac{1}{n}\sum_{k = 1}^{n} X_k^2 + \frac{1}{n + 1}\left( -2\overline{X_n}\sum_{k = 1}^{n}X_k + n\overline{X_n^2} \right)=\\
+        &= \frac{n}{n-1}\left( \frac{1}{n} \sum_{k = 1}^{n} X_k^2 - \overline{X_n^2} \right)
+    \end{align*}
+    Теперь заметим, что по закону польших чисел $\frac{1}{n} \sum_{k = 1}^{n} X_k^2$ сходится по вероятности
+    к $\EE(X_1^2)$, а $\overline{X_n^2} \toP \EE(X_1)^2$. Ястно так же, что $\frac{n}{n -1} \xrightarrow{n \to \infty} 1$.
+    Итого
+    \[
+        s^2_n = \frac{n}{n-1}\left( \frac{1}{n} \sum_{k = 1}^{n} X_k^2 - \overline{X_n^2} \right) \toP \DD(X_1)
+    \]
+\end{example}
+\begin{example}
+    Пусть $X_n$ --- последовательность независимых, одинаково распределённых случайных величин.
+    Тогда из ЦПТ следует, что
+    \[
+        \frac{\sqrt {n}(\overline{X_n} - a)}{\sigma} \toD Z \sim \mathcal{N}(0, 1)
+    \]
+    Более того: т.к. $s_n^2 \toP \sigma^2$, то
+    \[
+        \frac{\sqrt {n}(\overline{X_n} - a)}{\sqrt {s_n^2}} =
+        \frac{\sqrt {n}(\overline{X_n} - a)}{\sigma} \cdot
+        \sqrt {\frac{\sigma^2}{s_n^2}} \toD Z \sim \mathcal{N}(0, 1)
+    \]
+\end{example}
+\begin{proposal}
+    Пусть $X_n \toD X$, $f$ --- непрерывная и дифференцируемая в точке $a$ и $h_n \to 0$. Тогда
+    \[
+        \frac{f(a + h_nX_n) - f(a)}{h_n} \toD f'(a)X
+    \]
+\end{proposal}
+\begin{proof}
+    Положим
+    \begin{cases}
+        g(x) =
+        \begin{cases}
+            \frac{f(a + x) - f(a)}{x} & x \neq 0\\
+            f'(a) & x = 0
+        \end{cases}
+    \end{cases}
+    Ясно, что $g$ непрерывна. Рассмотрим $g(h_nX_n)$: т.к. $h_n \toD 0$ (можно считать что 0 --- константная
+    случайная величина), а $X_n \toD X$, то $h_{n}X_n \toD 0$. Отсюда $g(h_nX_n) \toD g(0) = f'(a)$.
+    Теперь получаем
+    \[
+        \left.
+        \begin{array}{c}
+            \frac{f(a + h_nX_n) - f(a)}{h_nX_n} \toD f'(a) = const \\
+            X_n \toD X
+        \end{array}
+        \right|
+        \implies
+        X_n \cdot \frac{f(a + h_nX_n) - f(a)}{h_nX_n} \toD f'(a)X
+    \]
+\end{proof}
+\begin{example}
+    Одна из переформулировок ЦПТ: $\sqrt {n}\left( \frac{S_n}{n} - a \right) \toD Z \sim \mathcal{N}(0, \sigma^2)$.
+    Пусть $h_n = \frac{1}{\sqrt {n}}$. Тогда по предложению выше:
+    \begin{align*}
+        \frac{f\left( a + \frac{1}{\sqrt {n}}\cdot\sqrt {n}\left( \frac{S_n}{n} - a \right) \right) - f(a)}{\frac{1}{\sqrt {n}}} &\toD f'(a)Z\\
+        \sqrt {n}\left( f\left( \frac{S_n}{n} \right) - f(a) \right) \toD Z' \sim \mathcal{N}(0, (f'(a))^2\sigma^2)
+    \end{align*}
+\end{example}
+
+\subsection{Неравенство Хефдинга-Чернова.}
+\begin{theorem}
+    Пусть $X_1, \ldots, X_n$ независимы и $a_j \leq X_j \leq b_j$. Тогда для случайной величины $S_n = \sum X_j$
+    и каждого $t > 0$ выполнено
+    \[
+        P(|S_n - \EE(S_n)| \geq t) \leq 2\exp\left( -\frac{t^2}{4\sum\limits_{j = 1}^n (b_j - a_j)^2} \right)
+    \]
+\end{theorem}
+\begin{corollary}
+    Пусть $X_j \sim Bern(p), S_n = \sum X_j$, тогда
+    \[
+        P\left( \left| \frac{S_n}{n} - p \right| \geq t \right) \leq 2e^{-\frac{nt^2}{4}}
+    \]
+\end{corollary}
+\begin{example}
+    Пусть в коробке находится сколько-то синих и красных шаров. Сколько шаров нужно вынуть чтобы оценить
+    $p$ --- долю красных шаров с точностью не менее $t = 0,01$ с вероятностью ошибки ошибки не более
+    $\epsilon = 10^{-6}$?
+
+    Пусть надо вытащить $n$ шаров. Пусть $X_j$ равна $1$, если шар красный и $0$ иначе. Пусть $S_n = \sum X_j$.
+    Тогда
+    \[
+        P\left( \left| \frac{S_n}{n} - p \right| \geq 0,01 \right) \leq 2e^{-\frac{n(0,01)^2}{4}} \leq 10^{-6}
+    \]
+    Отсюда
+    \[
+        \frac{n(0,01)^2}{4} > 6\ln(10)
+    \]
+    И в итоге
+    \[
+        n > \frac{24\ln(10)}{(0,01)^2}
+    \]
+\end{example}
+
+\subsection{Многомерная хар функция.}
+\begin{definition}
+    \it{Хар функция} случайного вектора $X = (X_1, \ldots, X_n)$ определяется равенством
+    \[
+        \phi_X(t) = \EE(e^{i(X, t)})
+    \]
+\end{definition}
+\begin{definition}
+    Последовательность случайных векторов $X^m = (X_1^m, \ldots, X_n^m)$ сходится по распределению
+    к случайному вектору $X = (X_1, \ldots, X_n)$, если для каждой непрерывной ограниченной $g \colon R^n \to R$
+    выполнено $\EE(g(X^m)) \to \EE(g(X))$.
+
+    Обозначается $X^m \toD X$.
+\end{definition}
+\begin{theorem}
+    Последовательность случайных векторов $X^m$ сходится по распределению к случайному вектору $X$ тогда и только
+    тогда когда $\phi_{X^m}(t) \to \phi_X(t) \: \forall\, t \in R^n$.
+\end{theorem}
+\begin{corollary}
+    Если $\phi_X = \phi_Y$, то векторы $X, Y$ имеют одинаковые распределения.
+\end{corollary}
+\begin{corollary}
+    Случайные величины $X_{1}, \ldots, X_n$ независимы тогда и только тогда, когда
+    \[
+        \phi_X(t_1, \ldots, t_n) = \prod \phi_{X_j}(t_j)
+    \]
+\end{corollary}
+\begin{proof}
+    Необходимость очевидна:
+    \begin{align*}
+        \phi_X(t) &= \EE(e^{i(X_1t_1 + \ldots + X_nt_n)}) = \EE(\prod_{j = 1}^n e^{iX_{j}y_j}))
+    \end{align*}
+    Если $X_1, \ldots, X_n$ --- независимы, то
+    \[
+        \prod_{j = 1}^n\EE(e^{iX_{j}y_j})) = \prod_{j = 1}^n \phi_{X_j}(t_j)
+    \]
+    Докажем достаточность: пусть $Z = (Z_1, \ldots, Z_n)$ --- случайный вектор с независимыми компонентами,
+    причём $F_{Z_j} = F_{X_j}$. Про $Z$ известно, что $\phi_Z(t) = \prod \phi_{Z_j}(t_j)$. Т.к. $Z_j$ и
+    $X_j$ распределены одинаково, то
+    \[
+        \prod \phi_{Z_j}(t_j) = \prod \phi_{X_j}(t_j)
+    \]
+    По предположению мы знаем, что $\prod \phi_{X_j}(t_j) = \phi_X(t)$, а значит, $\phi_Z = \phi_X$,
+    а значит $F_Z = F_X$, а значит компоненты $X$ независимы.
+\end{proof}
+\begin{definition}
+    Пусть $X$ --- случайный вектор. Матрица $R_X$ называется \it{ковариационной матрицей вектора $X$}, если
+    $(R_X)_{ij} = \cov(X_i, X_j)$.
+\end{definition}
+\begin{lemma}
+    Симметричная, неотрицательно определённая матрица $R$, является ковариационной матрицей случайного
+    вектора $X$ тогда и только тогда когда
+    \[
+        (Rx, y) = \cov\left( (x, X), (y, X) \right) = \EE[(x, X - a)(y, X - a)]
+    \]
+    где $a = (a_1, \ldots, a_n)$, где $a_j = \EE(X_j)$.
+\end{lemma}
+\begin{proof}
+    Заметим что последнее равенство не интересно, т.к. просто следует из определения ковариации. Первое
+    равенство связывает две билинейные формы $\implies$ достаточно простоверить на векторах стандартного
+    базиса. Пусть $e = (e_1, \ldots, e_n)$ --- стандартный базис.
+    \begin{align*}
+    (Rx, y)
+        &= \left( \sum_{k} x_kRe_k, \sum_k y_ke_k  \right) = \sum_k\sum_j \left( Re_k, e_j \right)x_{k}y_j
+        = \sum_k\sum_j \cov\left( (X, x_ke_k), (X, y_je_j) \right)
+    \end{align*}
+\end{proof}
+\begin{proposal}
+    Для произвольного случайного вектора $X$ и произвольного числа $t$ выполнено
+    \[
+        \phi_{tX}(y) = \phi_X(ty) = t_{(X, y)}(t)
+    \]
+\end{proposal}
+\begin{proof}
+    Очевидно по определению.
+\end{proof}
+
+\subsection{Многомерная ЦПТ.}
+\begin{theorem}
+    Пусть случайные векторы $X^m = (X_1^m, \ldots, X_n^m)$ независимы и одинаково распределены и имеют конечные
+    $a_j = \EE(X_j^1), r_{kj} = \cov(X^1_k, X^1_j)$. Тогда последовательность случайных векторов $Y^m$ с компонентами
+    \[
+        Y_j^m = \frac{X_j^1 + \ldots + X_j^m - na_j}{\sqrt {n}}
+    \]
+    сходится по распределению к вектору $Z$, харфункция которого имеет вид
+    \[
+        \phi_Z(y) = e^{-\frac{1}{2}(Ry, y)}, R = (r_{kj})
+    \]
+\end{theorem}
+\begin{proof}
+    Пусть $y \in \RR^n$. Рассмотрим последовательность случайных величин
+    \[
+        \xi_m = (Y^m, y) = \frac{(X^1, y) + \ldots + (X^n, y) - n(a, y)}{\sqrt {n}}
+    \]
+    Заметим, что $(X^j, y)$ независимы и одинаково распределены. Кроме того $\EE[(X^j, y)] = (a_j, y)$.
+    По одномерной ЦПТ: $\xi_n \toD Z_y \sim \mathcal{N}(0, \DD((X^1, y)))$. Заметим, что
+    $\DD[(X^1, y)] = \cov[(X^1, y)(X^1, y)] = (Ry, y)$. Ясно, что
+    \[
+        \phi_{\xi_n}(t) \to \phi_{Z_y}(t) = e^{-\frac{1}{2}t^2\DD[(X^1, y)]}
+    \]
+    Остаётся заметить, что
+    \[
+        \phi_{Y^n}(y) = \phi_{(Y^n, y)}(1) = \phi_{\xi_n}(1) \to \phi_{Z_y}(1) = e^{-\frac{1}{2}\DD[(X^1, y)]}
+    \]
+\end{proof}
+
+\subsection{Многомерное нормальное распределение.}
+\begin{definition}
+    Случайный вектор $X$ имеет нормальное распределение, если его харфункция имеет вид
+    \[
+        \phi_X(y) = \EE[e^{i(X, y)}] = e^{-\frac{1}{2}(Ry, y) + i(a, y)}
+    \]
+    где $a \in \RR^n$, $R$ --- симметричная, неотрицательно определённая матрица.
+
+    Обозначение: $X \sim \mathcal{N}(a, R)$.
+\end{definition}
+\begin{proposal}
+    Если $X \sim \mathcal{N}(a, R)$, то $AX + b \sim \mathcal{N}(Aa + b, ARA^*)$.
+\end{proposal}
+\begin{proof}
+    По определению:
+    \begin{align*}
+        \phi_{AX + b}(y) = \EE(e^{i(AX + b, y)}) = e^{i(b, y)}\EE(e^{i(X, A^*y)}) =
+        e^{-\frac{1}{2}(RA^*y, A^*y) + i(a, A^*y) + i(b, y)} = e^{-\frac{1}{2}(ARA^*y, y) + i(Aa + b, y)}
+    \end{align*}
+\end{proof}
+\begin{theorem}
+    Вектор $X$ имеет нормальное распределение тогда и только тогда когда для каждого $y$
+    случайная величина $(X, y)$ имеет нормальное распределение.
+\end{theorem}
+\begin{theorem}
+    Если $\RR^n \ni X \sim \mathcal{N}(a, R)$ и $\det R \neq 0$, то случайный вектор $X$ имеет плотность
+    \[
+        \rho(t) = \frac{1}{\sqrt {2\pi}^n \sqrt {\det R}}e^{-\frac{1}{2}(R^{-1} [t - a], t - a)}
+    \]
+\end{theorem}
+\begin{proof}
+    Известно, что $X = AZ + a$, где $A$ --- невырожденная матрица. По определению плотности:
+    \begin{align*}
+        P(X \in B) &= P(AZ + a \in B) = \idotsint\limits_{u \colon Au + a \in B} \frac{1}{\sqrt {2\pi}^n}
+        e^{-\frac{1}{2}u_1^2}\cdots e^{-\frac{1}{2}u_n^2}du =
+        \idotsint\limits_{u \colon Au + a \in B} \frac{1}{\sqrt {2\pi}^n}
+        e^{-\frac{1}{2}|u|^2}du = \\
+        &=
+        \left[ \begin{array}{c}
+                   y = Au + a\\
+                   u = A^{-1}(y - a)
+        \end{array} \right] =
+        \idotsint\limits_{y \colon y \in B} \frac{1}{\sqrt {2\pi}^n} \det(A^{-1})
+        e^{-\frac{1}{2}|A^{-1}(y - a)|^2}du
+    \end{align*}
+    Остаётся заметить, что $|A^{-1}(y - a)|^2 = (A^{-1}(y - a), A^{-1}(y - a)) = ((AA^*)^{-1}(y-a), (y-a))$,
+    $\det(A^{-1}) = \det(A)^{-1}$, $R = AA^*$, $\det(R) = \det(A)^2$.
+\end{proof}

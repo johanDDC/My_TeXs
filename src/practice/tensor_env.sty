@@ -1,0 +1,65 @@
+\usepackage{mdframed}
+
+\definecolor{green}{RGB}{51, 200, 50}
+
+\definecolor{pink}{RGB}{200, 50, 150}
+
+\definecolor{darkgray}{RGB}{35, 102, 182}
+
+\newcommand{\gap}{\noindent\rule{7in}{2.8pt}}
+\newcommand{\sgap}{\hbox to 7in{\leaders\hbox to 2pt{\hss . \hss}\hfil}}
+
+
+%\newcommand{\pinkframed}[2][rectangle,draw,fill=purple!20]{%
+%            \tikz[baseline=-0.6ex] \node [#1]{#2};}%
+%
+%\newenvironment{task}[2][Задача]
+%    { \begin{mdframed}[backgroundcolor=blue!10] \textbf{#1 #2.} }
+%    {  \end{mdframed}}
+%
+%\newenvironment{theory}[1]
+%    { \begin{mdframed}[backgroundcolor=green!10]  \textbf{#1.}}
+%    {  \end{mdframed}}
+%
+%\newenvironment{accent1}
+%    { \begin{colorbox}[linecolor=orange] }
+%    {  \end{colorbox}}
+
+
+
+%\newenvironment{result} { \sgap
+%    \smallskip
+%    \pinkframed{ \textbf{Ответ:} }}{}
+
+\newcommand{\A}{\; \forall \;}
+\newcommand{\E}{\; \exists \;}
+\newcommand{\nE}{\; \nexists \;}
+
+\newcommand{\lb}{\left(}
+\newcommand{\rb}{\right)}
+
+\renewcommand{\mbf}{\mathbf}
+\renewcommand{\O}[1]{\mathcal{O}\left(#1\right)}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\makeatletter
+\def\thickhrulefill#1{\leavevmode\leaders\hrule height#1\hfill\kern\z@}
+\makeatother
+
+\renewcommand{\headrule}{
+    \color{black}\vspace{-8pt}
+    \thickhrulefill{.6pt}
+
+    \vspace{-9pt}\thickhrulefill{2.4pt}
+}
+
+\lhead{Основы тензорного анализа}
+\rhead{Пешехонов Ваня \\ \href{https://t.me/JohanDDC}{@JohanDDC}}
+
+%
+%\newsavebox\MBox
+%\newcommand\Cline[2][red]{{\sbox\MBox{$#2$}%
+%  \rlap{\usebox\MBox}\color{#1}\rule[-1.2\dp\MBox]{\wd\MBox}{0.5pt}}}
+
